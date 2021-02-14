@@ -1,10 +1,10 @@
 import React from 'react';
 import { Layer, Stage } from 'react-konva';
-import { SQUARE_WIDTH } from './constants';
-import { getInitialGrid } from './getInitialGrid';
-import { getNextGrid } from './getNextGrid';
+import { SQUARE_WIDTH } from '../constants';
+import { getInitialGrid } from '../getInitialGrid';
+import { getNextGrid } from '../getNextGrid';
 import { GridSquare } from './GridSquare';
-import { SquareConfig } from './types';
+import { SquareConfig } from '../types';
 
 interface Props {
   imageRef: HTMLImageElement;

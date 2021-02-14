@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid } from './Grid';
-import minesweeperSpriteSheet from './minesweeperSprite.png';
+import minesweeperSpriteSheet from '../minesweeperSprite.png';
 import './App.css';
 
 function App() {
@@ -8,11 +8,18 @@ function App() {
     undefined
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     // set up imageRef
     const image = new Image();
     image.src = minesweeperSpriteSheet;
-    setImageRef(image);
+
+    const loadListener = () => {
+      setImageRef(image);
+    };
+
+    image.addEventListener('load', loadListener);
+
+    return () => image.removeEventListener('load', loadListener);
   }, []);
 
   if (!imageRef) {

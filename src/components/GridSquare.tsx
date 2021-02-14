@@ -1,8 +1,8 @@
 import React from 'react';
 import { Sprite } from 'react-konva';
-import { animationsConfig } from './animationsConfig';
-import { getSquareAnimationKey } from './getSquareAnimationKey';
-import { SquareConfig } from './types';
+import { animationsConfig } from '../animationsConfig';
+import { getSquareAnimationKey } from '../getSquareAnimationKey';
+import { SquareConfig } from '../types';
 
 interface Props {
   onMouseUp: () => void;
