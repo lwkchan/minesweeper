@@ -1,9 +1,9 @@
 import React from 'react';
-import { Layer, Sprite, Stage } from 'react-konva';
-import { animationsConfig } from './animationsConfig';
+import { Layer, Stage } from 'react-konva';
 import { SQUARE_WIDTH } from './constants';
 import { getInitialGrid } from './getInitialGrid';
-import { getSquareAnimationKey } from './getSquareAnimationKey';
+import { getNextGrid } from './getNextGrid';
+import { GridSquare } from './GridSquare';
 import { SquareConfig } from './types';
 
 interface Props {
@@ -23,6 +23,20 @@ export function Grid({ imageRef }: Props) {
     return null;
   }
 
+  function handleGridSquareMouseUp(
+    rowIndex: number,
+    columnIndex: number,
+    square: SquareConfig
+  ) {
+    const nextGrid = getNextGrid(
+      grid as SquareConfig[][],
+      square,
+      rowIndex,
+      columnIndex
+    );
+    setGrid(nextGrid);
+  }
+
   return (
     <Stage
       width={grid[0].length * SQUARE_WIDTH}
@@ -34,44 +48,15 @@ export function Grid({ imageRef }: Props) {
           return row.map((square, columnIndex) => {
             const y = (columnIndex + 1) * SQUARE_WIDTH;
             return (
-              <Sprite
+              <GridSquare
                 key={square.id}
-                onMouseDown={() => {
-                  if (square.isOpen) {
-                    return;
-                  }
-                  setGrid((prevGrid) => {
-                    const nextRow = [
-                      ...(prevGrid as SquareConfig[][])[rowIndex],
-                    ];
-                    nextRow[columnIndex] = { ...square, isPressed: true };
-
-                    const nextGrid = [...(prevGrid as SquareConfig[][])];
-                    nextGrid[rowIndex] = nextRow;
-                    return nextGrid;
-                  });
-                }}
-                onMouseUp={() => {
-                  setGrid((prevGrid) => {
-                    const nextRow = [
-                      ...(prevGrid as SquareConfig[][])[rowIndex],
-                    ];
-                    nextRow[columnIndex] = {
-                      ...square,
-                      isPressed: false,
-                      isOpen: true,
-                    };
-
-                    const nextGrid = [...(prevGrid as SquareConfig[][])];
-                    nextGrid[rowIndex] = nextRow;
-                    return nextGrid;
-                  });
-                }}
+                square={square}
+                onMouseUp={() =>
+                  handleGridSquareMouseUp(rowIndex, columnIndex, square)
+                }
+                imageRef={imageRef}
                 x={x}
                 y={y}
-                image={imageRef}
-                animation={getSquareAnimationKey(square)}
-                animations={animationsConfig}
               />
             );
           });

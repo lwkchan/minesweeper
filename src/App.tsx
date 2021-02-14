@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import minesweeperSpriteSheet from './minesweeperSprite.png';
-
-import './App.css';
 import { Grid } from './Grid';
+import minesweeperSpriteSheet from './minesweeperSprite.png';
+import './App.css';
 
 function App() {
   const [imageRef, setImageRef] = React.useState<undefined | HTMLImageElement>(

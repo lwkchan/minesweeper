@@ -1,8 +1,11 @@
 import { AnimationKey } from './animationsConfig';
 import { SquareConfig } from './types';
 
-export function getSquareAnimationKey(square: SquareConfig): AnimationKey {
-  if (square.isPressed) {
+export function getSquareAnimationKey(
+  square: SquareConfig,
+  isPressed: boolean
+): AnimationKey {
+  if (isPressed) {
     return 'open';
   }
 
