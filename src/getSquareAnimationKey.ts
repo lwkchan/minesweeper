@@ -9,6 +9,10 @@ export function getSquareAnimationKey(
     return 'open';
   }
 
+  if (square.isFlagged) {
+    return 'flag';
+  }
+
   if (!square.isOpen) {
     return 'closed';
   }

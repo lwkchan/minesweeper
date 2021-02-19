@@ -13,9 +13,7 @@ function App() {
     const image = new Image();
     image.src = minesweeperSpriteSheet;
 
-    const loadListener = () => {
-      setImageRef(image);
-    };
+    const loadListener = () => setImageRef(image);
 
     image.addEventListener('load', loadListener);
 

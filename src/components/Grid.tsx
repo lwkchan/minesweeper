@@ -1,4 +1,5 @@
 import React from 'react';
+import produce from 'immer';
 import { Layer, Stage } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
 import { getInitialGrid } from '../getInitialGrid';
@@ -37,6 +38,19 @@ export function Grid({ imageRef }: Props) {
     setGrid(nextGrid);
   }
 
+  function handleGridSquareRightClick(
+    rowIndex: number,
+    columnIndex: number,
+    square: SquareConfig
+  ) {
+    const nextGrid = produce(grid, (draftGrid) => {
+      (draftGrid as SquareConfig[][])[rowIndex][
+        columnIndex
+      ].isFlagged = !square.isFlagged;
+    });
+    setGrid(nextGrid);
+  }
+
   return (
     <Stage
       width={grid[0].length * SQUARE_WIDTH}
@@ -51,6 +65,9 @@ export function Grid({ imageRef }: Props) {
               <GridSquare
                 key={square.id}
                 square={square}
+                onRightClick={() =>
+                  handleGridSquareRightClick(rowIndex, columnIndex, square)
+                }
                 onMouseUp={() =>
                   handleGridSquareMouseUp(rowIndex, columnIndex, square)
                 }
