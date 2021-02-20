@@ -1,10 +1,10 @@
-import { AnimationKey } from './animationsConfig';
+import { GridAnimationKey } from './animationsConfig';
 import { SquareConfig } from './types';
 
 export function getSquareAnimationKey(
   square: SquareConfig,
   isPressed: boolean
-): AnimationKey {
+): GridAnimationKey {
   if (isPressed) {
     return 'open';
   }
@@ -33,5 +33,5 @@ export function getSquareAnimationKey(
     return 'open';
   }
 
-  return square.numberOfSurroundingMines.toString() as AnimationKey;
+  return square.numberOfSurroundingMines.toString() as GridAnimationKey;
 }

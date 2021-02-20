@@ -1,7 +1,7 @@
 import React from 'react';
 import { KonvaEventObject } from 'konva/types/Node';
 import { Sprite } from 'react-konva';
-import { animationsConfig } from '../animationsConfig';
+import { gridAnimationsConfig } from '../animationsConfig';
 import { getSquareAnimationKey } from '../getSquareAnimationKey';
 import { SquareConfig } from '../types';
 
@@ -16,18 +16,18 @@ interface Props {
   x: number;
   y: number;
   square: SquareConfig;
-  imageRef: HTMLImageElement;
   isGameLost: boolean;
+  imageRef: HTMLImageElement;
 }
 
 export function GridSquare({
   onMouseUp,
-  imageRef,
   square,
   isGameLost,
   x,
   y,
   onRightClick,
+  imageRef,
 }: Props) {
   const [isPressed, setIsPressed] = React.useState<boolean>(false);
   return (
@@ -59,7 +59,7 @@ export function GridSquare({
       y={y}
       image={imageRef}
       animation={getSquareAnimationKey(square, isPressed)}
-      animations={animationsConfig}
+      animations={gridAnimationsConfig}
     />
   );
 }

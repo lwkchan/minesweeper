@@ -29,6 +29,30 @@ function processSurroundingSquares(
   );
 }
 
+export function getNextGrid(
+  currentGrid: SquareConfig[][],
+  pressedSquare: SquareConfig,
+  pressedSquareRowIndex: number,
+  pressedSquareColumnIndex: number
+): SquareConfig[][] {
+  const nextGrid = produce(currentGrid, (nextGrid) => {
+    nextGrid[pressedSquareRowIndex][pressedSquareColumnIndex].isOpen = true;
+
+    // if it's a number, only open the number
+    if (pressedSquare.numberOfSurroundingMines > 0) {
+      return;
+    }
+    // if it's a blank space, the surrounding squares will need to be processed
+    processSurroundingSquares(
+      nextGrid,
+      pressedSquareRowIndex,
+      pressedSquareColumnIndex
+    );
+  });
+
+  return nextGrid;
+}
+
 export function getLosingGrid(
   currentGrid: SquareConfig[][],
   _pressedSquare: SquareConfig,
@@ -61,26 +85,15 @@ export function getLosingGrid(
   return losingGrid;
 }
 
-export function getNextGrid(
-  currentGrid: SquareConfig[][],
-  pressedSquare: SquareConfig,
-  pressedSquareRowIndex: number,
-  pressedSquareColumnIndex: number
+export function toggleFlag(
+  grid: SquareConfig[][],
+  square: SquareConfig,
+  rowIndex: number,
+  columnIndex: number
 ): SquareConfig[][] {
-  const nextGrid = produce(currentGrid, (nextGrid) => {
-    nextGrid[pressedSquareRowIndex][pressedSquareColumnIndex].isOpen = true;
-
-    // if it's a number, only open the number
-    if (pressedSquare.numberOfSurroundingMines > 0) {
-      return;
-    }
-    // if it's a blank space, the surrounding squares will need to be processed
-    processSurroundingSquares(
-      nextGrid,
-      pressedSquareRowIndex,
-      pressedSquareColumnIndex
-    );
+  return produce(grid, (draftGrid) => {
+    (draftGrid as SquareConfig[][])[rowIndex][
+      columnIndex
+    ].isFlagged = !square.isFlagged;
   });
-
-  return nextGrid;
 }
