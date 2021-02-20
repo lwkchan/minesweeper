@@ -1,7 +1,5 @@
-import React from 'react';
-import { Layer, Stage, Rect, Sprite } from 'react-konva';
+import { Layer, Stage, Rect } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
-import { getInitialGrid } from '../getInitialGrid';
 import { GameState, useStore } from '../store';
 import { getLosingGrid, getNextGrid, toggleFlag } from '../getNextGrid';
 import { GridSquare } from './GridSquare';
@@ -24,10 +22,6 @@ export function Grid({ imageRef }: Props) {
   );
   const gridWidth = grid ? grid[0].length * SQUARE_WIDTH : 0;
   const gridHeight = grid ? grid.length * SQUARE_WIDTH : 0;
-
-  React.useLayoutEffect(() => {
-    setGrid(getInitialGrid());
-  }, [setGrid]);
 
   if (!grid) {
     return null;

@@ -1,21 +1,51 @@
+import React from 'react';
 import { Sprite } from 'react-konva';
 import {
   FaceAnimationKey,
   faceButtonAnimationsConfig,
 } from '../animationsConfig';
+import { GameState, useStore } from '../store';
+
+function getFaceAnimation(
+  isPressed: boolean,
+  isGridSquarePressed: boolean,
+  gameState: GameState
+): FaceAnimationKey {
+  if (isPressed) {
+    return 'pressedSmile';
+  }
+  if (gameState === GameState.LOST) {
+    return 'sad';
+  }
+  if (gameState === GameState.WON) {
+    return 'sunglasses';
+  }
+  if (isGridSquarePressed) {
+    return 'surprised';
+  }
+  return 'smile';
+}
 
 interface Props {
   imageRef: HTMLImageElement;
 }
 
 export function FaceButton({ imageRef }: Props) {
-  function getFaceAnimation(): FaceAnimationKey {
-    return 'smile';
-  }
+  const isGridSquarePressed = useStore((state) => state.isGridSquarePressed);
+  const restartGame = useStore((state) => state.restartGame);
+  const gameState = useStore((state) => state.gameState);
+  const [isPressed, setIsPressed] = React.useState<boolean>(false);
 
   return (
     <Sprite
-      animation={getFaceAnimation()}
+      onMouseDown={() => {
+        setIsPressed(true);
+      }}
+      onMouseUp={() => {
+        setIsPressed(false);
+        restartGame();
+      }}
+      animation={getFaceAnimation(isPressed, isGridSquarePressed, gameState)}
       image={imageRef as HTMLImageElement}
       animations={faceButtonAnimationsConfig}
       x={0}
