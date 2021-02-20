@@ -17,8 +17,16 @@ export function getSquareAnimationKey(
     return 'closed';
   }
 
-  if (square.isMine) {
+  if (square.isIncorrectMine) {
+    return 'incorrectMine';
+  }
+
+  if (square.isBlownUpMine) {
     return 'blownUpMine';
+  }
+
+  if (square.isMine && square.isOpen) {
+    return 'discoveredMine';
   }
 
   if (square.numberOfSurroundingMines === 0) {

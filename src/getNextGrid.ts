@@ -29,6 +29,38 @@ function processSurroundingSquares(
   );
 }
 
+export function getLosingGrid(
+  currentGrid: SquareConfig[][],
+  _pressedSquare: SquareConfig,
+  pressedSquareRowIndex: number,
+  pressedSquareColumnIndex: number
+): SquareConfig[][] {
+  const losingGrid = produce(currentGrid, (nextGrid) => {
+    // you reveal all the bombs and keep the rest of them closed
+    nextGrid.forEach((row, rowIndex) =>
+      row.forEach((square, columnIndex) => {
+        if (
+          rowIndex === pressedSquareRowIndex &&
+          columnIndex === pressedSquareColumnIndex
+        ) {
+          square.isBlownUpMine = true;
+        }
+        if (square.isMine) {
+          square.isOpen = true;
+        }
+        if (square.isFlagged && !square.isMine) {
+          // replace flag with incorrectMine and open it up
+          square.isFlagged = false;
+          square.isIncorrectMine = true;
+          square.isOpen = true;
+        }
+      })
+    );
+  });
+
+  return losingGrid;
+}
+
 export function getNextGrid(
   currentGrid: SquareConfig[][],
   pressedSquare: SquareConfig,

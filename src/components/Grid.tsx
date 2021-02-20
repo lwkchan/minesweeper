@@ -3,7 +3,7 @@ import produce from 'immer';
 import { Layer, Stage } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
 import { getInitialGrid } from '../getInitialGrid';
-import { getNextGrid } from '../getNextGrid';
+import { getLosingGrid, getNextGrid } from '../getNextGrid';
 import { GridSquare } from './GridSquare';
 import { SquareConfig } from '../types';
 
@@ -15,6 +15,7 @@ export function Grid({ imageRef }: Props) {
   const [grid, setGrid] = React.useState<SquareConfig[][] | undefined>(
     undefined
   );
+  const [isGameLost, setIsGameLost] = React.useState<boolean>(false);
 
   React.useLayoutEffect(() => {
     setGrid(getInitialGrid());
@@ -29,6 +30,20 @@ export function Grid({ imageRef }: Props) {
     columnIndex: number,
     square: SquareConfig
   ) {
+    if (isGameLost) {
+      return;
+    }
+    if (square.isMine) {
+      setIsGameLost(true);
+      const losingGrid = getLosingGrid(
+        grid as SquareConfig[][],
+        square,
+        rowIndex,
+        columnIndex
+      );
+      setGrid(losingGrid);
+      return;
+    }
     const nextGrid = getNextGrid(
       grid as SquareConfig[][],
       square,
@@ -43,6 +58,9 @@ export function Grid({ imageRef }: Props) {
     columnIndex: number,
     square: SquareConfig
   ) {
+    if (isGameLost) {
+      return;
+    }
     const nextGrid = produce(grid, (draftGrid) => {
       (draftGrid as SquareConfig[][])[rowIndex][
         columnIndex
@@ -65,6 +83,7 @@ export function Grid({ imageRef }: Props) {
               <GridSquare
                 key={square.id}
                 square={square}
+                isGameLost={isGameLost}
                 onRightClick={() =>
                   handleGridSquareRightClick(rowIndex, columnIndex, square)
                 }

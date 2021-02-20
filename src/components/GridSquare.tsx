@@ -17,12 +17,14 @@ interface Props {
   y: number;
   square: SquareConfig;
   imageRef: HTMLImageElement;
+  isGameLost: boolean;
 }
 
 export function GridSquare({
   onMouseUp,
   imageRef,
   square,
+  isGameLost,
   x,
   y,
   onRightClick,
@@ -31,7 +33,11 @@ export function GridSquare({
   return (
     <Sprite
       onMouseDown={(e) => {
+        if (isGameLost) {
+          return;
+        }
         if (e.evt.button === mouseButton.rightClick) {
+          onRightClick(e);
           return;
         }
         if (square.isOpen || square.isFlagged) {
@@ -48,7 +54,6 @@ export function GridSquare({
       }}
       onContextMenu={(e) => {
         e.evt.preventDefault();
-        onRightClick(e);
       }}
       x={x}
       y={y}
