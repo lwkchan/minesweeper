@@ -1,4 +1,4 @@
-export const animationsConfig = {
+export const gridAnimationsConfig = {
   closed: [0, 51, 16, 16],
   open: [17, 51, 16, 16],
   flag: [34, 51, 16, 16],
@@ -17,4 +17,14 @@ export const animationsConfig = {
   '8': [119, 68, 16, 16],
 };
 
-export type AnimationKey = keyof typeof animationsConfig;
+export type GridAnimationKey = keyof typeof gridAnimationsConfig;
+
+export const faceButtonAnimationsConfig = {
+  smile: [0, 24, 26, 26],
+  pressedSmile: [27, 24, 26, 26],
+  surprised: [54, 24, 26, 26],
+  sunglasses: [81, 24, 26, 26],
+  sad: [108, 24, 26, 26],
+};
+
+export type FaceAnimationKey = keyof typeof faceButtonAnimationsConfig;
