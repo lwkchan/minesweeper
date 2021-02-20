@@ -46,7 +46,7 @@ export function GridSquare({
         setIsPressed(true);
       }}
       onMouseUp={(e) => {
-        if (e.evt.button === mouseButton.rightClick) {
+        if (e.evt.button === mouseButton.rightClick || square.isFlagged) {
           return;
         }
         setIsPressed(false);
