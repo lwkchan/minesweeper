@@ -28,3 +28,18 @@ export const faceButtonAnimationsConfig = {
 };
 
 export type FaceAnimationKey = keyof typeof faceButtonAnimationsConfig;
+
+export const numberAnimationsConfig = {
+  '1': [0, 0, 13, 23],
+  '2': [14, 0, 13, 23],
+  '3': [28, 0, 13, 23],
+  '4': [42, 0, 13, 23],
+  '5': [56, 0, 13, 23],
+  '6': [70, 0, 13, 23],
+  '7': [84, 0, 13, 23],
+  '8': [96, 0, 13, 23],
+  '9': [112, 0, 13, 23],
+  '0': [126, 0, 13, 23],
+};
+
+export type NumberAnimationKey = keyof typeof numberAnimationsConfig;

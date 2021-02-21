@@ -28,9 +28,11 @@ function getFaceAnimation(
 
 interface Props {
   imageRef: HTMLImageElement;
+  x: number;
+  y: number;
 }
 
-export function FaceButton({ imageRef }: Props) {
+export function FaceButton({ imageRef, x, y }: Props) {
   const isGridSquarePressed = useStore((state) => state.isGridSquarePressed);
   const restartGame = useStore((state) => state.restartGame);
   const gameState = useStore((state) => state.gameState);
@@ -48,8 +50,8 @@ export function FaceButton({ imageRef }: Props) {
       animation={getFaceAnimation(isPressed, isGridSquarePressed, gameState)}
       image={imageRef as HTMLImageElement}
       animations={faceButtonAnimationsConfig}
-      x={0}
-      y={0}
+      x={x}
+      y={y}
     />
   );
 }
