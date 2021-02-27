@@ -30,9 +30,10 @@ interface Props {
   imageRef: HTMLImageElement;
   x: number;
   y: number;
+  resetTimer: () => void;
 }
 
-export function FaceButton({ imageRef, x, y }: Props) {
+export function FaceButton({ imageRef, x, y, resetTimer }: Props) {
   const isGridSquarePressed = useStore((state) => state.isGridSquarePressed);
   const restartGame = useStore((state) => state.restartGame);
   const gameState = useStore((state) => state.gameState);
@@ -46,6 +47,7 @@ export function FaceButton({ imageRef, x, y }: Props) {
       onMouseUp={() => {
         setIsPressed(false);
         restartGame();
+        resetTimer();
       }}
       animation={getFaceAnimation(isPressed, isGridSquarePressed, gameState)}
       image={imageRef as HTMLImageElement}

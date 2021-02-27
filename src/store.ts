@@ -1,6 +1,8 @@
 import create from 'zustand';
+import { checkIfWinningGrid } from './checkIfWinningGrid';
 import { getInitialGrid } from './getInitialGrid';
 import { SquareConfig } from './types';
+import { devtools } from 'zustand/middleware';
 
 function getNumberOfMines(grid: SquareConfig[][]): number {
   return grid.flat().filter((square) => square.isMine).length;
@@ -16,7 +18,8 @@ export enum GameState {
 type State = {
   grid: SquareConfig[][] | undefined;
   setGrid: (newGrid: SquareConfig[][]) => void;
-  setGameState: (gameState: GameState) => void;
+  startGame: () => void;
+  setGameLost: () => void;
   restartGame: () => void;
   numberOfFlaggedMines: () => number;
   isGridSquarePressed: boolean;
@@ -28,37 +31,55 @@ type State = {
   gameState: GameState;
 };
 
-export const useStore = create<State>((set, get) => {
-  const grid = getInitialGrid();
-  const numberOfMines = getNumberOfMines(grid);
+export const useStore = create<State>(
+  devtools((set, get) => {
+    const grid = getInitialGrid();
+    const numberOfMines = getNumberOfMines(grid);
 
-  return {
-    grid,
-    numberOfMines,
-    numberOfFlaggedMines: () => get().numberOfMines - get().numberOfFlags,
-    setGrid: (newGrid) => set((state) => ({ ...state, grid: newGrid })),
-    isGridSquarePressed: false,
-    setIsGridSquarePressed: (isGridSquarePressed) =>
-      set((state) => ({ ...state, isGridSquarePressed })),
-    numberOfFlags: 0,
-    incrementFlag: () =>
-      set((state) => ({ ...state, numberOfFlags: state.numberOfFlags + 1 })),
-    decrementFlag: () =>
-      set((state) => ({ ...state, numberOfFlags: state.numberOfFlags - 1 })),
-    gameState: GameState.BEFORE_START,
-    setGameState: (gameState) => set((state) => ({ ...state, gameState })),
-    restartGame: () =>
-      set((state) => {
-        const grid = getInitialGrid();
-        const numberOfMines = getNumberOfMines(grid);
+    return {
+      grid,
+      numberOfMines,
+      numberOfFlaggedMines: () => get().numberOfMines - get().numberOfFlags,
+      setGrid: (newGrid) => {
+        // check if the grid is a winning grid
+        const isWinningGrid = checkIfWinningGrid(newGrid);
 
-        return {
+        // if it is then set the state as GameState.WON
+
+        set((state) => ({
           ...state,
-          grid,
-          numberOfMines,
-          numberOfFlags: 0,
-          gameState: GameState.BEFORE_START,
-        };
-      }),
-  };
-});
+          gameState: isWinningGrid ? GameState.WON : state.gameState,
+          grid: newGrid,
+        }));
+      },
+      isGridSquarePressed: false,
+      setIsGridSquarePressed: (isGridSquarePressed) =>
+        set((state) => ({ ...state, isGridSquarePressed })),
+      numberOfFlags: 0,
+      incrementFlag: () =>
+        set((state) => ({ ...state, numberOfFlags: state.numberOfFlags + 1 })),
+      decrementFlag: () =>
+        set((state) => ({ ...state, numberOfFlags: state.numberOfFlags - 1 })),
+      gameState: GameState.BEFORE_START,
+      startGame: () => {
+        set((state) => ({ ...state, gameState: GameState.IN_PROGRESS }));
+      },
+      setGameLost: () => {
+        set((state) => ({ ...state, gameState: GameState.LOST }));
+      },
+      restartGame: () =>
+        set((state) => {
+          const grid = getInitialGrid();
+          const numberOfMines = getNumberOfMines(grid);
+
+          return {
+            ...state,
+            grid,
+            numberOfMines,
+            numberOfFlags: 0,
+            gameState: GameState.BEFORE_START,
+          };
+        }),
+    };
+  })
+);

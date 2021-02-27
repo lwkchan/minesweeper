@@ -7,7 +7,7 @@ function getRandomInt(max: number) {
 
 export function getInitialGrid(): SquareConfig[][] {
   // Make initial grid
-  const across = Array.from({ length: 40 }, (_, i) => {
+  const across = Array.from({ length: 20 }, (_, i) => {
     return {
       id: `${i}`,
       isOpen: false,
@@ -16,14 +16,14 @@ export function getInitialGrid(): SquareConfig[][] {
     };
   });
 
-  const grid = Array.from({ length: 40 }, (_, i) =>
+  const grid = Array.from({ length: 20 }, (_, i) =>
     across.map((config) => {
       return { ...config, id: config.id + `${i}` };
     })
   );
 
   // Set the mines
-  const numberOfMines = 250;
+  const numberOfMines = 7;
   let numberOfSetMines = 0;
   while (numberOfSetMines < numberOfMines) {
     const columnIndex = getRandomInt(grid[0].length);

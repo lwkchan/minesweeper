@@ -11,7 +11,7 @@ function processSurroundingSquares(
   pressedSquareColumnIndex: number
 ) {
   const cb = ({ square, rowIndex, columnIndex }: SquareWithPosition) => {
-    if (square.isOpen) {
+    if (square.isOpen || square.isFlagged) {
       return;
     }
     square.isOpen = true;

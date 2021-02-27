@@ -9,6 +9,7 @@ import {
   ThreeDigitsDisplay,
   THREE_DIGITS_DISPLAY_WIDTH,
 } from './ThreeDigitsDisplay';
+import { useCountUp } from '../useCountUp';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -18,12 +19,16 @@ export function Grid({ imageRef }: Props) {
   const {
     grid,
     setGrid,
-    setGameState,
+    setGameLost,
+    startGame,
     gameState,
-    incrementFlag,
-    decrementFlag,
+    incrementFlag: incrementFlagCount,
+    decrementFlag: decrementFlagCount,
     numberOfFlaggedMines,
   } = useStore();
+  const { stopTimer, startTimer, time, isRunning, resetTimer } = useCountUp(
+    gameState === GameState.LOST || gameState === GameState.WON
+  );
   const gridWidth = grid ? grid[0].length * SQUARE_WIDTH : 0;
   const gridHeight = grid ? grid.length * SQUARE_WIDTH : 0;
 
@@ -36,11 +41,16 @@ export function Grid({ imageRef }: Props) {
     columnIndex: number,
     square: SquareConfig
   ) {
-    if (gameState === GameState.LOST) {
+    if (!isRunning) {
+      startGame();
+      startTimer();
+    }
+    if (gameState !== GameState.IN_PROGRESS) {
       return;
     }
     if (square.isMine) {
-      setGameState(GameState.LOST);
+      stopTimer();
+      setGameLost();
       const losingGrid = getLosingGrid(
         grid as SquareConfig[][],
         square,
@@ -64,15 +74,20 @@ export function Grid({ imageRef }: Props) {
     columnIndex: number,
     square: SquareConfig
   ) {
-    if (gameState === GameState.LOST) {
+    if (gameState === GameState.BEFORE_START) {
+      startGame();
+      startTimer();
+    }
+
+    if (square.isOpen) {
       return;
     }
 
     // if no flag, add a flag to counter
     if (square.isFlagged) {
-      decrementFlag();
+      decrementFlagCount();
     } else {
-      incrementFlag();
+      incrementFlagCount();
     }
     const nextGrid = toggleFlag(
       grid as SquareConfig[][],
@@ -102,12 +117,17 @@ export function Grid({ imageRef }: Props) {
             y={0}
             number={numberOfFlaggedMines()}
           />
-          <FaceButton imageRef={imageRef} x={gridWidth / 2} y={52 / 2} />
+          <FaceButton
+            resetTimer={resetTimer}
+            imageRef={imageRef}
+            x={gridWidth / 2}
+            y={52 / 2 - 26 / 2}
+          />
           <ThreeDigitsDisplay
             imageRef={imageRef}
             x={gridWidth - THREE_DIGITS_DISPLAY_WIDTH}
             y={0}
-            number={123}
+            number={time}
           />
         </Group>
         <Group>
