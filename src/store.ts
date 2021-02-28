@@ -1,8 +1,8 @@
 import create from 'zustand';
+import { devtools } from 'zustand/middleware';
 import { checkIfWinningGrid } from './checkIfWinningGrid';
 import { getInitialGrid } from './getInitialGrid';
 import { SquareConfig } from './types';
-import { devtools } from 'zustand/middleware';
 
 function getNumberOfMines(grid: SquareConfig[][]): number {
   return grid.flat().filter((square) => square.isMine).length;

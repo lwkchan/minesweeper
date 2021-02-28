@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from './Grid';
+import { MainContainer } from './MainContainer';
 import minesweeperSpriteSheet from '../minesweeperSprite.png';
 import './App.css';
 
@@ -24,7 +24,7 @@ function App() {
     return null;
   }
 
-  return <Grid imageRef={imageRef} />;
+  return <MainContainer imageRef={imageRef} />;
 }
 
 export default App;

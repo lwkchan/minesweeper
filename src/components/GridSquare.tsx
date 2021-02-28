@@ -42,6 +42,7 @@ export function GridSquare({
 
   return (
     <Sprite
+      onMouseLeave={() => setIsPressed(false)}
       onMouseDown={(e) => {
         if (isGameLost) {
           return;
