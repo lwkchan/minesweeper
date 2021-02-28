@@ -1,11 +1,11 @@
-import { Layer, Stage, Group } from 'react-konva';
+import { Layer, Stage } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
 import { GameState, useStore } from '../store';
 import { getLosingGrid, getNextGrid, toggleFlag } from '../getNextGrid';
-import { GridSquare } from './GridSquare';
 import { SquareConfig } from '../types';
 import { useCountUp } from '../useCountUp';
 import { TopDisplay } from './TopDisplay';
+import { Grid } from './Grid';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -110,30 +110,11 @@ export function MainContainer({ imageRef }: Props) {
           resetTimer={resetTimer}
           time={time}
         />
-        <Group>
-          {grid.map((row, rowIndex) => {
-            const x = rowIndex * SQUARE_WIDTH;
-            return row.map((square, columnIndex) => {
-              const y = columnIndex * SQUARE_WIDTH + 52;
-              return (
-                <GridSquare
-                  key={square.id}
-                  imageRef={imageRef}
-                  square={square}
-                  isGameLost={gameState === GameState.LOST}
-                  onRightClick={() =>
-                    handleGridSquareRightClick(rowIndex, columnIndex, square)
-                  }
-                  onMouseUp={() =>
-                    handleGridSquareMouseUp(rowIndex, columnIndex, square)
-                  }
-                  x={x}
-                  y={y}
-                />
-              );
-            });
-          })}
-        </Group>
+        <Grid
+          handleGridSquareMouseUp={handleGridSquareMouseUp}
+          handleGridSquareRightClick={handleGridSquareRightClick}
+          imageRef={imageRef}
+        />
       </Layer>
     </Stage>
   );
