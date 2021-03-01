@@ -1,6 +1,6 @@
 import React from 'react';
 import { MainContainer } from './MainContainer';
-import minesweeperSpriteSheet from '../minesweeperSprite.png';
+import minesweeperSpriteSheet from '../assets/minesweeperSprite.png';
 import './App.css';
 
 function App() {

@@ -6,7 +6,7 @@ import { SquareConfig } from '../types';
 import { useCountUp } from '../useCountUp';
 import { TopDisplay, TOP_DISPLAY_HEIGHT } from './TopDisplay';
 import { Grid } from './Grid';
-import minesweeperIcon from '../minesweeperIcon.png';
+import minesweeperIcon from '../assets/minesweeperIcon.png';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -103,18 +103,13 @@ export function MainContainer({ imageRef }: Props) {
       }}
       className="window"
     >
-      <div className="title-bar">
+      <div style={{ justifyContent: 'flex-start' }} className="title-bar">
         <img
           style={{ maxHeight: '18px', marginRight: '5px' }}
           src={minesweeperIcon}
           alt="Minesweeper icon"
         />
-        <div
-          style={{ justifyContent: 'flex-start' }}
-          className="title-bar-text"
-        >
-          Minesweeper
-        </div>
+        <div className="title-bar-text">Minesweeper</div>
       </div>
       <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
         <Layer>
