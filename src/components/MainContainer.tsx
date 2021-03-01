@@ -4,8 +4,9 @@ import { GameState, useStore } from '../store';
 import { getLosingGrid, getNextGrid, toggleFlag } from '../getNextGrid';
 import { SquareConfig } from '../types';
 import { useCountUp } from '../useCountUp';
-import { TopDisplay } from './TopDisplay';
+import { TopDisplay, TOP_DISPLAY_HEIGHT } from './TopDisplay';
 import { Grid } from './Grid';
+import minesweeperIcon from '../minesweeperIcon.png';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -95,27 +96,41 @@ export function MainContainer({ imageRef }: Props) {
   }
 
   return (
-    <Stage
+    <div
       style={{
         width: gridWidth,
-        height: gridHeight,
+        position: 'absolute',
       }}
-      width={gridWidth}
-      height={gridHeight + 52}
+      className="window"
     >
-      <Layer>
-        <TopDisplay
-          width={gridWidth}
-          imageRef={imageRef}
-          resetTimer={resetTimer}
-          time={time}
+      <div className="title-bar">
+        <img
+          style={{ maxHeight: '18px', marginRight: '5px' }}
+          src={minesweeperIcon}
+          alt="Minesweeper icon"
         />
-        <Grid
-          handleGridSquareMouseUp={handleGridSquareMouseUp}
-          handleGridSquareRightClick={handleGridSquareRightClick}
-          imageRef={imageRef}
-        />
-      </Layer>
-    </Stage>
+        <div
+          style={{ justifyContent: 'flex-start' }}
+          className="title-bar-text"
+        >
+          Minesweeper
+        </div>
+      </div>
+      <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
+        <Layer>
+          <TopDisplay
+            width={gridWidth}
+            imageRef={imageRef}
+            resetTimer={resetTimer}
+            time={time}
+          />
+          <Grid
+            handleGridSquareMouseUp={handleGridSquareMouseUp}
+            handleGridSquareRightClick={handleGridSquareRightClick}
+            imageRef={imageRef}
+          />
+        </Layer>
+      </Stage>
+    </div>
   );
 }

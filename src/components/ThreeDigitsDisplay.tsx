@@ -10,7 +10,7 @@ interface Props {
 
 export const DIGIT_WIDTH = 13;
 export const THREE_DIGITS_DISPLAY_WIDTH = DIGIT_WIDTH * 3;
-export const DIGIT_HEIGHT = 23;
+export const THREE_DIGITS_DISPLAY_HEIGHT = 23;
 
 function getDigitsFromNumber(number: number): [string, string, string] {
   return number.toString().padStart(3, '0').split('').slice(0, 3) as [

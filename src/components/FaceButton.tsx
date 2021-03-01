@@ -26,6 +26,8 @@ function getFaceAnimation(
   return 'smile';
 }
 
+export const FACE_BUTTON_HEIGHT = 26;
+
 interface Props {
   imageRef: HTMLImageElement;
   x: number;

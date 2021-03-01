@@ -3,6 +3,7 @@ import { SQUARE_WIDTH } from '../constants';
 import { GameState, useStore } from '../store';
 import { SquareConfig } from '../types';
 import { GridSquare } from './GridSquare';
+import { TOP_DISPLAY_HEIGHT } from './TopDisplay';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -32,7 +33,7 @@ export function Grid({
       {(grid as SquareConfig[][]).map((row, rowIndex) => {
         const x = rowIndex * SQUARE_WIDTH;
         return row.map((square, columnIndex) => {
-          const y = columnIndex * SQUARE_WIDTH + 52;
+          const y = columnIndex * SQUARE_WIDTH + TOP_DISPLAY_HEIGHT;
           return (
             <GridSquare
               key={square.id}
