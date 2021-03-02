@@ -6,7 +6,7 @@ import { SquareConfig } from '../types';
 import { useCountUp } from '../useCountUp';
 import { TopDisplay, TOP_DISPLAY_HEIGHT } from './TopDisplay';
 import { Grid } from './Grid';
-import minesweeperIcon from '../assets/minesweeperIcon.png';
+import { Windows98Wrapper } from './Windows98Wrapper';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -96,21 +96,7 @@ export function MainContainer({ imageRef }: Props) {
   }
 
   return (
-    <div
-      style={{
-        width: gridWidth,
-        position: 'absolute',
-      }}
-      className="window"
-    >
-      <div style={{ justifyContent: 'flex-start' }} className="title-bar">
-        <img
-          style={{ maxHeight: '18px', marginRight: '5px' }}
-          src={minesweeperIcon}
-          alt="Minesweeper icon"
-        />
-        <div className="title-bar-text">Minesweeper</div>
-      </div>
+    <Windows98Wrapper width={gridWidth}>
       <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
         <Layer>
           <TopDisplay
@@ -126,6 +112,6 @@ export function MainContainer({ imageRef }: Props) {
           />
         </Layer>
       </Stage>
-    </div>
+    </Windows98Wrapper>
   );
 }
