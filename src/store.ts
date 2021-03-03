@@ -1,6 +1,7 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { checkIfWinningGrid } from './checkIfWinningGrid';
+import { GameSettings } from './gameDifficultyConfig';
 import { getInitialGrid } from './getInitialGrid';
 import { SquareConfig } from './types';
 
@@ -20,7 +21,7 @@ type State = {
   setGrid: (newGrid: SquareConfig[][]) => void;
   startGame: () => void;
   setGameLost: () => void;
-  restartGame: () => void;
+  restartGame: (gameSettings?: GameSettings) => void;
   numberOfFlaggedMines: () => number;
   isGridSquarePressed: boolean;
   numberOfMines: number;
@@ -67,10 +68,10 @@ export const useStore = create<State>(
       setGameLost: () => {
         set((state) => ({ ...state, gameState: GameState.LOST }));
       },
-      restartGame: () =>
+      restartGame: (gameSettings) =>
         set((state) => {
-          const grid = getInitialGrid();
-          const numberOfMines = getNumberOfMines(grid);
+          const grid = getInitialGrid(gameSettings);
+          const numberOfMines = gameSettings?.mines || getNumberOfMines(grid);
 
           return {
             ...state,

@@ -12,7 +12,7 @@ interface Props {
   imageRef: HTMLImageElement;
 }
 
-export function MainContainer({ imageRef }: Props) {
+export function GridContainer({ imageRef }: Props) {
   const {
     grid,
     setGrid,
