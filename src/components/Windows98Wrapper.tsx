@@ -9,18 +9,20 @@ interface Props {
 export function Windows98Wrapper({ width, children }: Props) {
   const [state, setState] = React.useState({
     isDragging: false,
-    translateX: 10,
-    translateY: 10,
+    positionX: 10,
+    positionY: 10,
   });
+  const windowRef = React.useRef<HTMLDivElement>(null);
 
   // mouse move
   const handleMouseMove = React.useCallback(
-    ({ clientX, clientY }) => {
-      if (state.isDragging) {
+    ({ movementX, movementY }) => {
+      if (state.isDragging && windowRef.current) {
+        // setState
         setState((prevState) => ({
           ...prevState,
-          translateX: clientX,
-          translateY: clientY,
+          positionX: prevState.positionX + movementX,
+          positionY: prevState.positionY + movementY,
         }));
       }
     },
@@ -60,12 +62,17 @@ export function Windows98Wrapper({ width, children }: Props) {
       style={{
         width,
         position: 'absolute',
-        transform: `translate(${state.translateX}px, ${state.translateY}px)`,
+        left: `${state.positionX}px`,
+        top: `${state.positionY}px`,
       }}
       className="window"
-      onMouseDown={handleMouseDown}
+      ref={windowRef}
     >
-      <div style={{ justifyContent: 'flex-start' }} className="title-bar">
+      <div
+        onMouseDown={handleMouseDown}
+        style={{ justifyContent: 'flex-start' }}
+        className="title-bar"
+      >
         <img
           style={{ maxHeight: '18px', marginRight: '5px' }}
           src={minesweeperIcon}
