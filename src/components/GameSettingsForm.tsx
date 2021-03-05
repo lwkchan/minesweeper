@@ -21,7 +21,7 @@ export function GameSettingsForm() {
         <legend>Choose your difficulty</legend>
         <div className="field-row">
           <input
-            onClick={() => setSelected(Difficulty.EASY)}
+            onChange={() => setSelected(Difficulty.EASY)}
             checked={selected === Difficulty.EASY}
             id="easy"
             type="radio"
@@ -31,7 +31,7 @@ export function GameSettingsForm() {
         </div>
         <div className="field-row">
           <input
-            onClick={() => setSelected(Difficulty.MEDIUM)}
+            onChange={() => setSelected(Difficulty.MEDIUM)}
             checked={selected === Difficulty.MEDIUM}
             id="medium"
             type="radio"
@@ -41,7 +41,7 @@ export function GameSettingsForm() {
         </div>
         <div className="field-row">
           <input
-            onClick={() => setSelected(Difficulty.EXPERT)}
+            onChange={() => setSelected(Difficulty.EXPERT)}
             checked={selected === Difficulty.EXPERT}
             id="expert"
             type="radio"

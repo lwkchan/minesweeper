@@ -1,4 +1,8 @@
-import { GameSettings } from './gameDifficultyConfig';
+import {
+  Difficulty,
+  GameSettings,
+  gameSettingsConfig,
+} from './gameDifficultyConfig';
 import { stepThroughSurroundingSquares } from './stepThroughSurroundingSquares';
 import { SquareConfig } from './types';
 
@@ -6,7 +10,7 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-const defaultGameSettings = { width: 20, height: 20, mines: 9 };
+const defaultGameSettings = gameSettingsConfig[Difficulty.MEDIUM];
 
 export function getInitialGrid(
   gameSettings: GameSettings = defaultGameSettings

@@ -38,7 +38,7 @@ export function TopDisplay({ width, imageRef, resetTimer, time }: Props) {
       <FaceButton
         resetTimer={resetTimer}
         imageRef={imageRef}
-        x={width / 2}
+        x={width / 2 - FACE_BUTTON_HEIGHT / 2}
         y={TOP_DISPLAY_HEIGHT / 2 - FACE_BUTTON_HEIGHT / 2}
       />
       <ThreeDigitsDisplay

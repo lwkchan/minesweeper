@@ -28,12 +28,14 @@ export function Grid({
     grid: s.grid,
     gameState: s.gameState,
   }));
+
   return (
     <Group>
       {(grid as SquareConfig[][]).map((row, rowIndex) => {
-        const x = rowIndex * SQUARE_WIDTH;
         return row.map((square, columnIndex) => {
-          const y = columnIndex * SQUARE_WIDTH + TOP_DISPLAY_HEIGHT;
+          const x = columnIndex * SQUARE_WIDTH;
+          const y = rowIndex * SQUARE_WIDTH + TOP_DISPLAY_HEIGHT;
+
           return (
             <GridSquare
               key={square.id}

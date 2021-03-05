@@ -1,8 +1,8 @@
 import React from 'react';
 import { GridContainer } from './GridContainer';
 import minesweeperSpriteSheet from '../assets/minesweeperSprite.png';
-import './App.css';
 import { GameSettingsForm } from './GameSettingsForm';
+import './App.css';
 
 function App() {
   const [imageRef, setImageRef] = React.useState<undefined | HTMLImageElement>(
@@ -26,7 +26,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="main">
       <GameSettingsForm />
       <GridContainer imageRef={imageRef} />;
     </div>

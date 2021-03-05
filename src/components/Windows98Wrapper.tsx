@@ -18,7 +18,6 @@ export function Windows98Wrapper({ width, children }: Props) {
   const handleMouseMove = React.useCallback(
     ({ movementX, movementY }) => {
       if (state.isDragging && windowRef.current) {
-        // setState
         setState((prevState) => ({
           ...prevState,
           positionX: prevState.positionX + movementX,
@@ -70,7 +69,7 @@ export function Windows98Wrapper({ width, children }: Props) {
     >
       <div
         onMouseDown={handleMouseDown}
-        style={{ justifyContent: 'flex-start' }}
+        style={{ justifyContent: 'flex-start', userSelect: 'none' }}
         className="title-bar"
       >
         <img
