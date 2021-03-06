@@ -21,6 +21,7 @@ export function GridContainer({ imageRef }: Props) {
     gameState,
     incrementFlag: incrementFlagCount,
     decrementFlag: decrementFlagCount,
+    setMinesweeperWindowClosed,
   } = useStore();
   const { stopTimer, startTimer, time, isRunning, resetTimer } = useCountUp(
     gameState === GameState.LOST || gameState === GameState.WON
@@ -96,7 +97,10 @@ export function GridContainer({ imageRef }: Props) {
   }
 
   return (
-    <Windows98Wrapper width={gridWidth}>
+    <Windows98Wrapper
+      onClose={() => setMinesweeperWindowClosed()}
+      width={gridWidth}
+    >
       <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
         <Layer>
           <TopDisplay

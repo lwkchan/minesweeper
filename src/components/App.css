@@ -1,4 +1,4 @@
 .main {
   height: 100%;
-  background-color: rgb(0, 128, 128);
+  background-color: var(--background);
 }

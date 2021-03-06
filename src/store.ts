@@ -18,6 +18,9 @@ export enum GameState {
 
 type State = {
   grid: SquareConfig[][] | undefined;
+  isMineSweeperWindowOpen: boolean;
+  setMinesweeperWindowOpen: () => void;
+  setMinesweeperWindowClosed: () => void;
   setGrid: (newGrid: SquareConfig[][]) => void;
   startGame: () => void;
   setGameLost: () => void;
@@ -38,6 +41,25 @@ export const useStore = create<State>(
     const numberOfMines = getNumberOfMines(grid);
 
     return {
+      isMineSweeperWindowOpen: false,
+      setMinesweeperWindowOpen: () => {
+        set((state) => {
+          const grid = getInitialGrid();
+          const numberOfMines = getNumberOfMines(grid);
+
+          return {
+            ...state,
+            grid,
+            isMineSweeperWindowOpen: true,
+            numberOfMines,
+            numberOfFlags: 0,
+            gameState: GameState.BEFORE_START,
+          };
+        });
+      },
+      setMinesweeperWindowClosed: () => {
+        set((state) => ({ ...state, isMineSweeperWindowOpen: false }));
+      },
       grid,
       numberOfMines,
       numberOfFlaggedMines: () => get().numberOfMines - get().numberOfFlags,

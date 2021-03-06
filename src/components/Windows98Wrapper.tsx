@@ -4,9 +4,10 @@ import minesweeperIcon from '../assets/minesweeperIcon.png';
 interface Props {
   width: number;
   children: React.ReactNode;
+  onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-export function Windows98Wrapper({ width, children }: Props) {
+export function Windows98Wrapper({ width, children, onClose }: Props) {
   const [state, setState] = React.useState({
     isDragging: false,
     positionX: 10,
@@ -67,17 +68,21 @@ export function Windows98Wrapper({ width, children }: Props) {
       className="window"
       ref={windowRef}
     >
-      <div
-        onMouseDown={handleMouseDown}
-        style={{ justifyContent: 'flex-start', userSelect: 'none' }}
-        className="title-bar"
-      >
-        <img
-          style={{ maxHeight: '18px', marginRight: '5px' }}
-          src={minesweeperIcon}
-          alt="Minesweeper icon"
-        />
-        <div className="title-bar-text">Minesweeper</div>
+      <div onMouseDown={handleMouseDown} className="noHighlight title-bar">
+        <div
+          className="title-bar-text"
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
+          <img
+            style={{ maxHeight: '18px', marginRight: '5px' }}
+            src={minesweeperIcon}
+            alt="Minesweeper icon"
+          />
+          Minesweeper
+        </div>
+        <div className="title-bar-controls">
+          <button onClick={onClose} aria-label="Close"></button>
+        </div>
       </div>
       {children}
     </div>
