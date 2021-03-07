@@ -1,4 +1,3 @@
-import { GameSettingsForm } from './GameSettingsForm';
 import { Taskbar } from './Taskbar';
 import { Minesweeper } from './Minesweeper';
 import { useStore } from '../store';
@@ -10,7 +9,6 @@ function App() {
 
   return (
     <div className="main">
-      <GameSettingsForm />
       {isMineSweeperWindowOpen && <Minesweeper />}
       <Taskbar />
     </div>

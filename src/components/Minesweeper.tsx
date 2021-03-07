@@ -1,8 +1,15 @@
 import React from 'react';
 import minesweeperSpriteSheet from '../assets/minesweeperSprite.png';
+import { useStore } from '../store';
+import { GameSettingsForm } from './GameSettingsForm';
 import { GridContainer } from './GridContainer';
+import { WindowContainer } from './WindowContainer';
 
 export function Minesweeper() {
+  const { isSettingsWindowOpen, handleSettingsClose } = useStore((s) => ({
+    isSettingsWindowOpen: s.isSettingsWindowOpen,
+    handleSettingsClose: s.setSettingsWindowClosed,
+  }));
   const [imageRef, setImageRef] = React.useState<undefined | HTMLImageElement>(
     undefined
   );
@@ -23,5 +30,18 @@ export function Minesweeper() {
     return null;
   }
 
-  return <GridContainer imageRef={imageRef} />;
+  return (
+    <>
+      <GridContainer imageRef={imageRef} />;
+      {isSettingsWindowOpen && (
+        <WindowContainer
+          windowTitle="Minesweeper Settings"
+          width={480}
+          onClose={handleSettingsClose}
+        >
+          <GameSettingsForm />
+        </WindowContainer>
+      )}
+    </>
+  );
 }

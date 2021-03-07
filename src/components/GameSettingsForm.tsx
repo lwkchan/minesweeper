@@ -1,17 +1,25 @@
 import React from 'react';
 import { useStore } from '../store';
-import { Difficulty, gameSettingsConfig } from '../gameDifficultyConfig';
+import { Difficulty } from '../gameDifficultyConfig';
 
 export function GameSettingsForm() {
   const [selected, setSelected] = React.useState<undefined | Difficulty>(
     undefined
   );
-  const restartGame = useStore((s) => s.restartGame);
+  const { setCurrentDifficulty, closeSettingsWindow, restartGame } = useStore(
+    (s) => ({
+      restartGame: s.restartGame,
+      closeSettingsWindow: s.setSettingsWindowClosed,
+      setCurrentDifficulty: s.setCurrentDifficulty,
+    })
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selected) {
-      restartGame(gameSettingsConfig[selected]);
+      setCurrentDifficulty(selected);
+      restartGame();
+      closeSettingsWindow();
     }
   };
 

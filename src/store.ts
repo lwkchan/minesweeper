@@ -1,7 +1,7 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { checkIfWinningGrid } from './checkIfWinningGrid';
-import { GameSettings } from './gameDifficultyConfig';
+import { Difficulty, gameSettingsConfig } from './gameDifficultyConfig';
 import { getInitialGrid } from './getInitialGrid';
 import { SquareConfig } from './types';
 
@@ -21,10 +21,13 @@ type State = {
   isMineSweeperWindowOpen: boolean;
   setMinesweeperWindowOpen: () => void;
   setMinesweeperWindowClosed: () => void;
+  isSettingsWindowOpen: boolean;
+  setSettingsWindowOpen: () => void;
+  setSettingsWindowClosed: () => void;
   setGrid: (newGrid: SquareConfig[][]) => void;
   startGame: () => void;
   setGameLost: () => void;
-  restartGame: (gameSettings?: GameSettings) => void;
+  restartGame: () => void;
   numberOfFlaggedMines: () => number;
   isGridSquarePressed: boolean;
   numberOfMines: number;
@@ -33,6 +36,8 @@ type State = {
   decrementFlag: () => void;
   setIsGridSquarePressed: (isGridSquarePressed: boolean) => void;
   gameState: GameState;
+  currentDifficulty: Difficulty;
+  setCurrentDifficulty: (difficulty: Difficulty) => void;
 };
 
 export const useStore = create<State>(
@@ -44,21 +49,21 @@ export const useStore = create<State>(
       isMineSweeperWindowOpen: false,
       setMinesweeperWindowOpen: () => {
         set((state) => {
-          const grid = getInitialGrid();
-          const numberOfMines = getNumberOfMines(grid);
-
           return {
             ...state,
-            grid,
             isMineSweeperWindowOpen: true,
-            numberOfMines,
-            numberOfFlags: 0,
-            gameState: GameState.BEFORE_START,
           };
         });
       },
       setMinesweeperWindowClosed: () => {
         set((state) => ({ ...state, isMineSweeperWindowOpen: false }));
+      },
+      isSettingsWindowOpen: false,
+      setSettingsWindowOpen: () => {
+        set((state) => ({ ...state, isSettingsWindowOpen: true }));
+      },
+      setSettingsWindowClosed: () => {
+        set((state) => ({ ...state, isSettingsWindowOpen: false }));
       },
       grid,
       numberOfMines,
@@ -90,8 +95,13 @@ export const useStore = create<State>(
       setGameLost: () => {
         set((state) => ({ ...state, gameState: GameState.LOST }));
       },
-      restartGame: (gameSettings) =>
+      currentDifficulty: Difficulty.MEDIUM,
+      setCurrentDifficulty: (difficulty: Difficulty) => {
+        set((s) => ({ ...s, currentDifficulty: difficulty }));
+      },
+      restartGame: () => {
         set((state) => {
+          const gameSettings = gameSettingsConfig[get().currentDifficulty];
           const grid = getInitialGrid(gameSettings);
           const numberOfMines = gameSettings?.mines || getNumberOfMines(grid);
 
@@ -102,7 +112,8 @@ export const useStore = create<State>(
             numberOfFlags: 0,
             gameState: GameState.BEFORE_START,
           };
-        }),
+        });
+      },
     };
   })
 );

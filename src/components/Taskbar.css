@@ -30,11 +30,6 @@
 
 .taskbar__startMenuList {
   min-width: 150px;
-
-  /* remove if reset is introduced */
-  padding: 0;
-  margin: 0;
-  list-style: none;
 }
 
 .taskbar__startMenuItem {

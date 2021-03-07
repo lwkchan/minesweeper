@@ -1,17 +1,30 @@
 import React from 'react';
-import minesweeperIcon from '../assets/minesweeperIcon.png';
 
 interface Props {
   width: number;
   children: React.ReactNode;
   onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  initialX?: number;
+  initialY?: number;
+  iconSrc?: string;
+  iconAlt?: string;
+  windowTitle: string;
 }
 
-export function Windows98Wrapper({ width, children, onClose }: Props) {
+export function WindowContainer({
+  initialX,
+  initialY,
+  width,
+  iconSrc,
+  iconAlt,
+  windowTitle,
+  children,
+  onClose,
+}: Props) {
   const [state, setState] = React.useState({
     isDragging: false,
-    positionX: 10,
-    positionY: 10,
+    positionX: initialX || 10,
+    positionY: initialY || 10,
   });
   const windowRef = React.useRef<HTMLDivElement>(null);
 
@@ -56,7 +69,6 @@ export function Windows98Wrapper({ width, children, onClose }: Props) {
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [handleMouseMove, handleMouseUp]);
-
   return (
     <div
       style={{
@@ -73,12 +85,14 @@ export function Windows98Wrapper({ width, children, onClose }: Props) {
           className="title-bar-text"
           style={{ display: 'flex', alignItems: 'center' }}
         >
-          <img
-            style={{ maxHeight: '18px', marginRight: '5px' }}
-            src={minesweeperIcon}
-            alt="Minesweeper icon"
-          />
-          Minesweeper
+          {iconSrc && iconAlt && (
+            <img
+              style={{ maxHeight: '18px', marginRight: '5px' }}
+              src={iconSrc}
+              alt={iconAlt}
+            />
+          )}
+          {windowTitle}
         </div>
         <div className="title-bar-controls">
           <button onClick={onClose} aria-label="Close"></button>

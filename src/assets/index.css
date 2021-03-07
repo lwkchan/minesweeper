@@ -94,3 +94,11 @@ body {
 .noHighlight {
   user-select: none;
 }
+
+ul,
+ol {
+  /* remove if reset is introduced */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

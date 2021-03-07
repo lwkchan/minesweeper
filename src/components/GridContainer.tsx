@@ -6,7 +6,7 @@ import { SquareConfig } from '../types';
 import { useCountUp } from '../useCountUp';
 import { TopDisplay, TOP_DISPLAY_HEIGHT } from './TopDisplay';
 import { Grid } from './Grid';
-import { Windows98Wrapper } from './Windows98Wrapper';
+import { MinesweeperWindow } from './MinesweeperWindow';
 
 interface Props {
   imageRef: HTMLImageElement;
@@ -22,6 +22,7 @@ export function GridContainer({ imageRef }: Props) {
     incrementFlag: incrementFlagCount,
     decrementFlag: decrementFlagCount,
     setMinesweeperWindowClosed,
+    restartGame,
   } = useStore();
   const { stopTimer, startTimer, time, isRunning, resetTimer } = useCountUp(
     gameState === GameState.LOST || gameState === GameState.WON
@@ -97,9 +98,14 @@ export function GridContainer({ imageRef }: Props) {
   }
 
   return (
-    <Windows98Wrapper
-      onClose={() => setMinesweeperWindowClosed()}
+    <MinesweeperWindow
+      onClose={() => {
+        setMinesweeperWindowClosed();
+        restartGame(); // restart for next time
+      }}
       width={gridWidth}
+      initialX={50}
+      initialY={50}
     >
       <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
         <Layer>
@@ -116,6 +122,6 @@ export function GridContainer({ imageRef }: Props) {
           />
         </Layer>
       </Stage>
-    </Windows98Wrapper>
+    </MinesweeperWindow>
   );
 }

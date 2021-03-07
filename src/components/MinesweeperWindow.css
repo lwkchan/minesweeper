@@ -1,0 +1,57 @@
+.MinesweeperWindow__menuContents {
+  padding: 2px;
+  position: relative;
+}
+
+.MinesweeperWindow__menuButton {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 2px 5px;
+  min-width: 0;
+  position: relative;
+  min-height: 0;
+}
+
+.MinesweeperWindow__fileMenu {
+  position: absolute;
+  z-index: 5;
+  padding: 5px;
+  background: silver;
+  display: block;
+  padding: 2px;
+  background-color: rgb(192, 192, 192);
+  border-top: 1px solid rgb(192, 192, 192);
+  border-left: 1px solid rgb(192, 192, 192);
+  border-right: 1px solid rgb(0, 0, 0);
+  border-bottom: 1px solid rgb(0, 0, 0);
+  box-shadow: 1px 1px 0 rgb(255, 255, 255) inset,
+    -1px -1px 0 rgb(128, 128, 128) inset;
+  background: rgb(192, 192, 192);
+  color: rgb(0, 0, 0);
+  width: 140px;
+}
+
+.MinesweeperWindow__fileMenu li {
+  padding: 2px 16px;
+}
+
+.MinesweeperWindow__fileMenu li:hover {
+  background-color: var(--dialog-blue);
+  color: var(--button-highlight);
+  cursor: default;
+}
+
+.MinesweeperWindow__menuButton:hover:not(.MinesweeperWindow__menuButton--active) {
+  box-shadow: 1px 0 rgb(255, 255, 255) inset,
+    -1px -1px 0 rgb(128, 128, 128) inset;
+}
+
+.MinesweeperWindow__menuButton:not(:disabled):active,
+.MinesweeperWindow__menuButton--active {
+  top: 1px;
+  left: 1px;
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a,
+    inset -2px -2px #dfdfdf, inset 2px 2px grey;
+  padding: 2px 5px;
+}
