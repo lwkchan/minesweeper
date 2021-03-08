@@ -1,6 +1,7 @@
 import React from 'react';
 import minesweeperIcon from '../assets/minesweeperIcon.png';
 import { useStore } from '../store';
+import { useHandleClickAway } from '../useHandleClickAway';
 
 import './MinesweeperWindow.css';
 import { WindowContainer } from './WindowContainer';
@@ -13,7 +14,16 @@ interface Props {
 
 export function MinesweeperWindow({ width, children, onClose }: Props) {
   const [isFileMenuOpen, setIsFileMenuOpen] = React.useState(false);
-  const {setSettingsWindowOpen, initialX, initialY} = useStore((s) => ({setSettingsWindowOpen: s.setSettingsWindowOpen, initialX: s.minesweeperWindowX, initialY: s.minesweeperWindowY}));
+  const { setSettingsWindowOpen, initialX, initialY } = useStore((s) => ({
+    setSettingsWindowOpen: s.setSettingsWindowOpen,
+    initialX: s.minesweeperWindowX,
+    initialY: s.minesweeperWindowY,
+  }));
+  const fileMenuRef = React.useRef<HTMLDivElement>(null);
+
+  useHandleClickAway(() => {
+    setIsFileMenuOpen(false);
+  }, fileMenuRef);
 
   function handleFileOpen() {
     setIsFileMenuOpen(true);
@@ -44,7 +54,7 @@ export function MinesweeperWindow({ width, children, onClose }: Props) {
           File
         </button>
         {isFileMenuOpen && (
-          <div className="MinesweeperWindow__fileMenu">
+          <div ref={fileMenuRef} className="MinesweeperWindow__fileMenu">
             <ul>
               <li role="button" onClick={handleSettingsClick}>
                 Settings

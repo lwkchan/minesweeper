@@ -1,6 +1,7 @@
 import React from 'react';
 import minesweeperLogo from '../assets/minesweeperStartLogo.png';
 import { useStore } from '../store';
+import { useHandleClickAway } from '../useHandleClickAway';
 import './Taskbar.css';
 
 export function Taskbar() {
@@ -8,23 +9,9 @@ export function Taskbar() {
   const [showMenu, setShowMenu] = React.useState(false);
   const taskbarRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    const handleMouseDown = (e: MouseEvent) => {
-      if (
-        taskbarRef.current &&
-        (taskbarRef.current as HTMLDivElement).contains(e.target as Node)
-      ) {
-        return;
-      }
-      setShowMenu(false);
-    };
-
-    document.addEventListener('mousedown', handleMouseDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
-    };
-  }, []);
+  useHandleClickAway(() => {
+    setShowMenu(false);
+  }, taskbarRef);
 
   function handleStartClick() {
     setShowMenu(!showMenu);
