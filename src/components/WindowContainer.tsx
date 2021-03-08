@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {
   width: number;
   children: React.ReactNode;
-  onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClose: (x: number, y: number) => void;
   initialX?: number;
   initialY?: number;
   iconSrc?: string;
@@ -60,6 +60,10 @@ export function WindowContainer({
     }
   }, [state.isDragging]);
 
+function handleClose() {
+  onClose(state.positionX, state.positionY)
+}
+
   React.useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
@@ -95,7 +99,7 @@ export function WindowContainer({
           {windowTitle}
         </div>
         <div className="title-bar-controls">
-          <button onClick={onClose} aria-label="Close"></button>
+          <button onClick={handleClose} aria-label="Close"></button>
         </div>
       </div>
       {children}

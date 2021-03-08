@@ -39,7 +39,9 @@ export function Minesweeper() {
           width={480}
           onClose={handleSettingsClose}
         >
-          <GameSettingsForm />
+          <div className="window-body">
+            <GameSettingsForm />
+          </div>
         </WindowContainer>
       )}
     </>

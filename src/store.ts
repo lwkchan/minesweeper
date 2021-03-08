@@ -20,7 +20,9 @@ type State = {
   grid: SquareConfig[][] | undefined;
   isMineSweeperWindowOpen: boolean;
   setMinesweeperWindowOpen: () => void;
-  setMinesweeperWindowClosed: () => void;
+  setMinesweeperWindowClosed: (lastX: number, lastY: number) => void;
+  minesweeperWindowX?: number,
+  minesweeperWindowY?: number,
   isSettingsWindowOpen: boolean;
   setSettingsWindowOpen: () => void;
   setSettingsWindowClosed: () => void;
@@ -55,8 +57,8 @@ export const useStore = create<State>(
           };
         });
       },
-      setMinesweeperWindowClosed: () => {
-        set((state) => ({ ...state, isMineSweeperWindowOpen: false }));
+      setMinesweeperWindowClosed: (lastX, lastY) => {
+        set((state) => ({ ...state, isMineSweeperWindowOpen: false, minesweeperWindowX: lastX, minesweeperWindowY: lastY }));
       },
       isSettingsWindowOpen: false,
       setSettingsWindowOpen: () => {

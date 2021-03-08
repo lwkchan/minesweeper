@@ -99,13 +99,11 @@ export function GridContainer({ imageRef }: Props) {
 
   return (
     <MinesweeperWindow
-      onClose={() => {
-        setMinesweeperWindowClosed();
+      onClose={(x, y) => {
+        setMinesweeperWindowClosed(x, y);
         restartGame(); // restart for next time
       }}
       width={gridWidth}
-      initialX={50}
-      initialY={50}
     >
       <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
         <Layer>

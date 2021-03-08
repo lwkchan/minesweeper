@@ -8,14 +8,12 @@ import { WindowContainer } from './WindowContainer';
 interface Props {
   width: number;
   children: React.ReactNode;
-  onClose: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  initialX?: number;
-  initialY?: number;
+  onClose: (x: number, y: number) => void;
 }
 
 export function MinesweeperWindow({ width, children, onClose }: Props) {
   const [isFileMenuOpen, setIsFileMenuOpen] = React.useState(false);
-  const setSettingsWindowOpen = useStore((s) => s.setSettingsWindowOpen);
+  const {setSettingsWindowOpen, initialX, initialY} = useStore((s) => ({setSettingsWindowOpen: s.setSettingsWindowOpen, initialX: s.minesweeperWindowX, initialY: s.minesweeperWindowY}));
 
   function handleFileOpen() {
     setIsFileMenuOpen(true);
@@ -32,6 +30,8 @@ export function MinesweeperWindow({ width, children, onClose }: Props) {
       iconAlt="Minesweeper Icon"
       onClose={onClose}
       width={width}
+      initialX={initialX}
+      initialY={initialY}
       windowTitle="Minesweeper"
     >
       <div className="MinesweeperWindow__menuContents">
