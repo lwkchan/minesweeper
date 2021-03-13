@@ -1,7 +1,7 @@
 import React from 'react';
 import minesweeperSpriteSheet from '../assets/minesweeperSprite.png';
 import { useStore } from '../store';
-import { GameSettingsForm } from './GameSettingsForm';
+import { GameSettingsForm } from './GameSettingsForm/GameSettingsForm';
 import { GridContainer } from './GridContainer';
 import { WindowContainer } from './WindowContainer';
 

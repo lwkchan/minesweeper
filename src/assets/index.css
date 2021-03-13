@@ -102,3 +102,9 @@ ol {
   margin: 0;
   list-style: none;
 }
+
+input[type='email'][disabled],
+input[type='password'][disabled],
+input[type='text'][disabled] {
+  background-color: var(--surface);
+}

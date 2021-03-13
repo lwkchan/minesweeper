@@ -10,12 +10,12 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-const defaultGameSettings = gameSettingsConfig[Difficulty.MEDIUM];
+const defaultGameSettings = gameSettingsConfig[
+  Difficulty.MEDIUM
+] as GameSettings;
 
-export function getInitialGrid(
-  gameSettings: GameSettings = defaultGameSettings
-): SquareConfig[][] {
-  const { width, height, mines } = gameSettings;
+export function getInitialGrid(gameSettings?: GameSettings): SquareConfig[][] {
+  const { width, height, mines } = gameSettings || defaultGameSettings;
   // Make initial grid
   const across = Array.from({ length: width }, (_, i) => {
     return {
