@@ -44,6 +44,7 @@ export function CustomConfigForm({
             id="width"
             name="width"
             type="text"
+            onChange={onChange}
             value={customGameConfig.width}
           />
         </div>
@@ -56,6 +57,7 @@ export function CustomConfigForm({
             id="mines"
             type="text"
             name="mines"
+            onChange={onChange}
             value={customGameConfig.mines}
           />
         </div>

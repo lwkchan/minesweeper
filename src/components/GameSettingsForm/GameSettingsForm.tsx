@@ -1,6 +1,10 @@
 import React from 'react';
 import { useStore } from '../../store';
-import { Difficulty } from '../../gameDifficultyConfig';
+import {
+  Difficulty,
+  GameSettings,
+  gameSettingsConfig,
+} from '../../gameDifficultyConfig';
 import { DifficultyFieldRow } from './DifficultyFieldRow';
 import { CustomConfigForm, CustomGameConfigForm } from './CustomConfigForm';
 
@@ -16,25 +20,31 @@ export function GameSettingsForm() {
     width: '',
     mines: '',
   });
-  const { setCurrentDifficulty, closeSettingsWindow, restartGame } = useStore(
-    (s) => ({
-      restartGame: s.restartGame,
-      closeSettingsWindow: s.setSettingsWindowClosed,
-      setCurrentDifficulty: s.setCurrentDifficulty,
-    })
-  );
+  const { closeSettingsWindow, restartGame } = useStore((s) => ({
+    restartGame: s.restartGame,
+    closeSettingsWindow: s.setSettingsWindowClosed,
+  }));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (selected) {
-      setCurrentDifficulty(selected);
+      let nextGameConfig = {} as GameSettings;
 
       if (selected === Difficulty.CUSTOM) {
-        return;
+        console.log('handle submit');
+        Object.keys(customGameConfig).forEach((key) => {
+          const value = parseInt(
+            customGameConfig[key as keyof CustomGameConfigForm]
+          );
+
+          nextGameConfig[key as keyof GameSettings] = value;
+        });
+      } else {
+        nextGameConfig = gameSettingsConfig[selected] as GameSettings;
       }
 
-      restartGame();
+      restartGame(nextGameConfig);
       closeSettingsWindow();
     }
   };
@@ -43,23 +53,19 @@ export function GameSettingsForm() {
     <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Choose your difficulty</legend>
-        {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.EXPERT].map((d) => (
+        {[
+          Difficulty.EASY,
+          Difficulty.MEDIUM,
+          Difficulty.EXPERT,
+          Difficulty.CUSTOM,
+        ].map((d) => (
           <DifficultyFieldRow
+            key={d}
             difficulty={d}
             isSelected={selected === d}
             onChange={() => setSelected(d)}
           />
         ))}
-        <div className="field-row">
-          <input
-            onChange={() => setSelected(Difficulty.CUSTOM)}
-            checked={selected === Difficulty.CUSTOM}
-            id="custom"
-            type="radio"
-            name="custom"
-          />
-          <label htmlFor="custom">Custom</label>
-        </div>
         <CustomConfigForm
           isEnabled={selected === Difficulty.CUSTOM}
           customGameConfig={customGameConfig}

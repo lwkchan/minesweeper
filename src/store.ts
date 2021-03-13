@@ -1,7 +1,11 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { checkIfWinningGrid } from './checkIfWinningGrid';
-import { Difficulty, gameSettingsConfig } from './gameDifficultyConfig';
+import {
+  Difficulty,
+  GameSettings,
+  gameSettingsConfig,
+} from './gameDifficultyConfig';
 import { getInitialGrid } from './getInitialGrid';
 import { SquareConfig } from './types';
 
@@ -21,15 +25,15 @@ type State = {
   isMineSweeperWindowOpen: boolean;
   setMinesweeperWindowOpen: () => void;
   setMinesweeperWindowClosed: (lastX: number, lastY: number) => void;
-  minesweeperWindowX?: number,
-  minesweeperWindowY?: number,
+  minesweeperWindowX?: number;
+  minesweeperWindowY?: number;
   isSettingsWindowOpen: boolean;
   setSettingsWindowOpen: () => void;
   setSettingsWindowClosed: () => void;
   setGrid: (newGrid: SquareConfig[][]) => void;
   startGame: () => void;
   setGameLost: () => void;
-  restartGame: () => void;
+  restartGame: (gameSettings?: GameSettings) => void;
   numberOfFlaggedMines: () => number;
   isGridSquarePressed: boolean;
   numberOfMines: number;
@@ -38,8 +42,7 @@ type State = {
   decrementFlag: () => void;
   setIsGridSquarePressed: (isGridSquarePressed: boolean) => void;
   gameState: GameState;
-  currentDifficulty: Difficulty;
-  setCurrentDifficulty: (difficulty: Difficulty) => void;
+  currentGameSettingsConfig: GameSettings;
 };
 
 export const useStore = create<State>(
@@ -58,7 +61,12 @@ export const useStore = create<State>(
         });
       },
       setMinesweeperWindowClosed: (lastX, lastY) => {
-        set((state) => ({ ...state, isMineSweeperWindowOpen: false, minesweeperWindowX: lastX, minesweeperWindowY: lastY }));
+        set((state) => ({
+          ...state,
+          isMineSweeperWindowOpen: false,
+          minesweeperWindowX: lastX,
+          minesweeperWindowY: lastY,
+        }));
       },
       isSettingsWindowOpen: false,
       setSettingsWindowOpen: () => {
@@ -97,21 +105,23 @@ export const useStore = create<State>(
       setGameLost: () => {
         set((state) => ({ ...state, gameState: GameState.LOST }));
       },
-      currentDifficulty: Difficulty.MEDIUM,
-      setCurrentDifficulty: (difficulty: Difficulty) => {
-        set((s) => ({ ...s, currentDifficulty: difficulty }));
-      },
-      restartGame: () => {
+      currentGameSettingsConfig: gameSettingsConfig[
+        Difficulty.MEDIUM
+      ] as GameSettings,
+      restartGame: (newGameSettings?: GameSettings) => {
         set((state) => {
-          const gameSettings = gameSettingsConfig[get().currentDifficulty];
-          const grid = getInitialGrid(gameSettings);
-          const numberOfMines = gameSettings?.mines || getNumberOfMines(grid);
+          const nextGameSettings =
+            newGameSettings || get().currentGameSettingsConfig;
+          const grid = getInitialGrid(nextGameSettings);
+          const numberOfMines =
+            nextGameSettings?.mines || getNumberOfMines(grid);
 
           return {
             ...state,
             grid,
             numberOfMines,
             numberOfFlags: 0,
+            currentGameSettingsConfig: nextGameSettings,
             gameState: GameState.BEFORE_START,
           };
         });
