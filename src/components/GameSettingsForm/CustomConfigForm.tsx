@@ -6,6 +6,7 @@ export type CustomGameConfigForm = Record<keyof GameSettings, string>;
 interface Props {
   isEnabled: boolean;
   customGameConfig: CustomGameConfigForm;
+  errors: Partial<CustomGameConfigForm>;
   setCustomGameConfig: (newConfig: CustomGameConfigForm) => void;
 }
 
@@ -13,6 +14,7 @@ export function CustomConfigForm({
   isEnabled,
   customGameConfig,
   setCustomGameConfig,
+  errors,
 }: Props) {
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     const key = e.target.name;
@@ -34,6 +36,7 @@ export function CustomConfigForm({
             onChange={onChange}
             value={customGameConfig.height}
           />
+          {errors.height && errors.height}
         </div>
       </fieldset>
       <fieldset>
@@ -47,6 +50,7 @@ export function CustomConfigForm({
             onChange={onChange}
             value={customGameConfig.width}
           />
+          {errors.width && errors.width}
         </div>
       </fieldset>
       <fieldset>
@@ -60,6 +64,7 @@ export function CustomConfigForm({
             onChange={onChange}
             value={customGameConfig.mines}
           />
+          {errors.mines && errors.mines}
         </div>
       </fieldset>
     </>

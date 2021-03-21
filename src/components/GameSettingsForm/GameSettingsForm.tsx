@@ -20,6 +20,9 @@ export function GameSettingsForm() {
     width: '',
     mines: '',
   });
+  const [customGameConfigErrors, setCustomGameConfigErrors] = React.useState<
+    Partial<CustomGameConfigForm>
+  >({});
   const { closeSettingsWindow, restartGame } = useStore((s) => ({
     restartGame: s.restartGame,
     closeSettingsWindow: s.setSettingsWindowClosed,
@@ -28,25 +31,52 @@ export function GameSettingsForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (selected) {
-      let nextGameConfig = {} as GameSettings;
+    if (selected && selected === Difficulty.CUSTOM) {
+      // validate form
+      let errors = {} as CustomGameConfigForm;
+      Object.keys(customGameConfig).forEach((k) => {
+        const key = k as keyof CustomGameConfigForm;
+        const value = customGameConfig[key];
 
-      if (selected === Difficulty.CUSTOM) {
-        console.log('handle submit');
-        Object.keys(customGameConfig).forEach((key) => {
-          const value = parseInt(
-            customGameConfig[key as keyof CustomGameConfigForm]
-          );
+        if (!/^-?\d+$/.test(value)) {
+          // is not number
+          errors[key] = 'Please enter a valid number';
+          return;
+        }
 
-          nextGameConfig[key as keyof GameSettings] = value;
-        });
-      } else {
-        nextGameConfig = gameSettingsConfig[selected] as GameSettings;
+        if (key === 'mines') {
+          const maxNumberOfMines =
+            parseInt(customGameConfig.width) *
+            parseInt(customGameConfig.height);
+          const actualMines = parseInt(customGameConfig[key]);
+          if (actualMines > maxNumberOfMines) {
+            errors[key] =
+              'The number of mines cannot exceed the width * height of the grid';
+          }
+        }
+      });
+
+      if (Object.values(errors).length > 0) {
+        // set errors
+        setCustomGameConfigErrors(errors);
+        return;
       }
 
+      // get game config from form
+      let nextGameConfig = {} as GameSettings;
+      Object.keys(customGameConfig).forEach((k) => {
+        const key = k as keyof CustomGameConfigForm;
+        const value = parseInt(customGameConfig[key]);
+        nextGameConfig[key] = value;
+      });
       restartGame(nextGameConfig);
-      closeSettingsWindow();
     }
+
+    if (selected && selected !== Difficulty.CUSTOM) {
+      restartGame(gameSettingsConfig[selected] as GameSettings);
+    }
+
+    closeSettingsWindow();
   };
 
   return (
@@ -69,6 +99,7 @@ export function GameSettingsForm() {
         <CustomConfigForm
           isEnabled={selected === Difficulty.CUSTOM}
           customGameConfig={customGameConfig}
+          errors={customGameConfigErrors}
           setCustomGameConfig={setCustomGameConfig}
         />
         <button type="submit">Confirm</button>
