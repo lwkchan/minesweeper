@@ -1,3 +1,4 @@
+import React from 'react';
 import { Layer, Stage } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
 import { GameState, useStore } from '../store';
@@ -30,41 +31,48 @@ export function GridContainer({ imageRef }: Props) {
   const gridWidth = grid ? grid[0].length * SQUARE_WIDTH : 0;
   const gridHeight = grid ? grid.length * SQUARE_WIDTH : 0;
 
-  if (!grid) {
-    return null;
-  }
-
-  function handleGridSquareMouseUp(
-    rowIndex: number,
-    columnIndex: number,
-    square: SquareConfig
-  ) {
-    if (gameState === GameState.LOST || gameState === GameState.WON) {
-      return;
-    }
-    if (!isRunning && gameState === GameState.BEFORE_START) {
-      startGame();
-      startTimer();
-    }
-    if (square.isMine) {
-      stopTimer();
-      setGameLost();
-      const losingGrid = getLosingGrid(
+  const handleGridSquareMouseUp = React.useCallback(
+    (rowIndex: number, columnIndex: number, square: SquareConfig) => {
+      if (gameState === GameState.LOST || gameState === GameState.WON) {
+        return;
+      }
+      if (!isRunning && gameState === GameState.BEFORE_START) {
+        startGame();
+        startTimer();
+      }
+      if (square.isMine) {
+        stopTimer();
+        setGameLost();
+        const losingGrid = getLosingGrid(
+          grid as SquareConfig[][],
+          square,
+          rowIndex,
+          columnIndex
+        );
+        setGrid(losingGrid);
+        return;
+      }
+      const nextGrid = getNextGrid(
         grid as SquareConfig[][],
         square,
         rowIndex,
         columnIndex
       );
-      setGrid(losingGrid);
-      return;
-    }
-    const nextGrid = getNextGrid(
-      grid as SquareConfig[][],
-      square,
-      rowIndex,
-      columnIndex
-    );
-    setGrid(nextGrid);
+      setGrid(nextGrid);
+    },
+    [
+      gameState,
+      grid,
+      isRunning,
+      setGameLost,
+      setGrid,
+      startGame,
+      startTimer,
+      stopTimer,
+    ]
+  );
+  if (!grid) {
+    return null;
   }
 
   function handleGridSquareRightClick(

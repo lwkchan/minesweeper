@@ -1,6 +1,5 @@
-/* Variables from https://github.com/jdan/98.css */
-
 :root {
+  /* Variables from https://github.com/jdan/98.css */
   /* Color */
   --surface: #c0c0c0;
   --background: #008080;
@@ -66,45 +65,4 @@
   --border-field: inset -1px -1px var(--button-highlight),
     inset 1px 1px var(--button-shadow), inset -2px -2px var(--button-face),
     inset 2px 2px var(--window-frame);
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-#root {
-  height: 100%;
-}
-
-.noHighlight {
-  user-select: none;
-}
-
-ul,
-ol {
-  /* remove if reset is introduced */
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-input[type='email'][disabled],
-input[type='password'][disabled],
-input[type='text'][disabled] {
-  background-color: var(--surface);
 }
