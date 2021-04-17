@@ -6,6 +6,7 @@ import './Taskbar.css';
 
 export function Taskbar() {
   const openMinesweeper = useStore((s) => s.setMinesweeperWindowOpen);
+  const openAboutWindow = useStore((s) => s.setAboutWindowOpen);
   const [showMenu, setShowMenu] = React.useState(false);
   const taskbarRef = React.useRef<HTMLDivElement>(null);
 
@@ -19,6 +20,11 @@ export function Taskbar() {
 
   function handleShowMinesweeper() {
     openMinesweeper();
+    setShowMenu(false);
+  }
+
+  function handleOpenAboutWindow() {
+    openAboutWindow();
     setShowMenu(false);
   }
 
@@ -41,7 +47,19 @@ export function Taskbar() {
                 alt="Minesweeper logo"
                 className="taskbar__startMenuItem__logo"
               />
-              Minesweeper
+              <p>Minesweeper</p>
+            </li>
+            <li
+              role="button"
+              onClick={handleOpenAboutWindow}
+              className="taskbar__startMenuItem noHighlight"
+            >
+              <img
+                src={minesweeperLogo}
+                alt="Question mark"
+                className="taskbar__startMenuItem__logo"
+              />
+              <p>About</p>
             </li>
           </ul>
         </div>

@@ -42,6 +42,8 @@
 }
 
 .taskbar__startMenuItem__logo {
+  display: flex;
+  justify-content: space-between;
   margin-right: 8px;
 }
 

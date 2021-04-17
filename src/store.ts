@@ -25,6 +25,9 @@ type State = {
   isMineSweeperWindowOpen: boolean;
   setMinesweeperWindowOpen: () => void;
   setMinesweeperWindowClosed: (lastX: number, lastY: number) => void;
+  setAboutWindowOpen: () => void;
+  setAboutWindowClosed: () => void;
+  isAboutWindowOpen: boolean;
   minesweeperWindowX?: number;
   minesweeperWindowY?: number;
   isSettingsWindowOpen: boolean;
@@ -68,6 +71,9 @@ export const useStore = create<State>(
           minesweeperWindowY: lastY,
         }));
       },
+      isAboutWindowOpen: false,
+      setAboutWindowOpen: () => { set((state) => ({ ...state, isAboutWindowOpen: true })) },
+      setAboutWindowClosed: () => { set((state) => ({ ...state, isAboutWindowOpen: false })) },
       isSettingsWindowOpen: false,
       setSettingsWindowOpen: () => {
         set((state) => ({ ...state, isSettingsWindowOpen: true }));
