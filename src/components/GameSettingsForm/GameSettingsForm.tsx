@@ -7,6 +7,7 @@ import {
 } from '../../gameDifficultyConfig';
 import { DifficultyFieldRow } from './DifficultyFieldRow';
 import { CustomConfigForm, CustomGameConfigForm } from './CustomConfigForm';
+import { validateCustomSettings } from './validateCustomSettings';
 
 export function GameSettingsForm() {
   const [selected, setSelected] = React.useState<undefined | Difficulty>(
@@ -33,31 +34,9 @@ export function GameSettingsForm() {
 
     if (selected && selected === Difficulty.CUSTOM) {
       // validate form
-      let errors = {} as CustomGameConfigForm;
-      Object.keys(customGameConfig).forEach((k) => {
-        const key = k as keyof CustomGameConfigForm;
-        const value = customGameConfig[key];
+      const errors = validateCustomSettings(customGameConfig);
 
-        if (!/^-?\d+$/.test(value)) {
-          // is not number
-          errors[key] = 'Please enter a valid number';
-          return;
-        }
-
-        if (key === 'mines') {
-          const maxNumberOfMines =
-            parseInt(customGameConfig.width) *
-            parseInt(customGameConfig.height);
-          const actualMines = parseInt(customGameConfig[key]);
-          if (actualMines > maxNumberOfMines) {
-            errors[key] =
-              'The number of mines cannot exceed the width * height of the grid';
-          }
-        }
-      });
-
-      if (Object.values(errors).length > 0) {
-        // set errors
+      if (errors) {
         setCustomGameConfigErrors(errors);
         return;
       }
