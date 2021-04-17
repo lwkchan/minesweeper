@@ -8,6 +8,7 @@ import {
 import { DifficultyFieldRow } from './DifficultyFieldRow';
 import { CustomConfigForm, CustomGameConfigForm } from './CustomConfigForm';
 import { validateCustomSettings } from './validateCustomSettings';
+import { MAX_CUSTOM_DIMENSION } from '../../constants';
 
 export function GameSettingsForm() {
   const [selected, setSelected] = React.useState<undefined | Difficulty>(
@@ -46,7 +47,9 @@ export function GameSettingsForm() {
       Object.keys(customGameConfig).forEach((k) => {
         const key = k as keyof CustomGameConfigForm;
         const value = parseInt(customGameConfig[key]);
-        nextGameConfig[key] = value;
+
+        nextGameConfig[key] =
+          value > MAX_CUSTOM_DIMENSION ? MAX_CUSTOM_DIMENSION : value;
       });
       restartGame(nextGameConfig);
     }

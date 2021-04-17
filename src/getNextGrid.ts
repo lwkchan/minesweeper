@@ -30,7 +30,6 @@ const getNextSquaresToOpen = (pressedSquareRowIndex: number, pressedSquareColumn
     }
     squares.push([rowIndex, columnIndex])
     if (currentSquare.numberOfSurroundingMines === 0) {
-      debugger;
       processSurroundingSquares(currentGrid, rowIndex, columnIndex, cb)
     }
   }
