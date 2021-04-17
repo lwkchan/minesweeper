@@ -8,19 +8,9 @@ import { SquareConfig } from './types';
 function processSurroundingSquares(
   nextGrid: SquareConfig[][],
   pressedSquareRowIndex: number,
-  pressedSquareColumnIndex: number
+  pressedSquareColumnIndex: number,
+  cb: ({ square, rowIndex, columnIndex }: SquareWithPosition) => void
 ) {
-  const cb = ({ square, rowIndex, columnIndex }: SquareWithPosition) => {
-    if (square.isOpen || square.isFlagged) {
-      return;
-    }
-    square.isOpen = true;
-    if (square.numberOfSurroundingMines === 0) {
-      // then step through again
-      processSurroundingSquares(nextGrid, rowIndex, columnIndex);
-    }
-  };
-
   stepThroughSurroundingSquares(
     nextGrid,
     pressedSquareRowIndex,
@@ -29,28 +19,43 @@ function processSurroundingSquares(
   );
 }
 
+const getNextSquaresToOpen = (pressedSquareRowIndex: number, pressedSquareColumnIndex: number, currentGrid: SquareConfig[][],): [number, number][] => {
+  let squares: [number, number][] = [[pressedSquareRowIndex, pressedSquareColumnIndex]]
+  const cb = ({ square: currentSquare, rowIndex, columnIndex }: SquareWithPosition) => {
+    if (squares.some(([r, c]) => rowIndex === r && c === columnIndex)) {
+      return;
+    }
+    if (currentSquare.isOpen || currentSquare.isFlagged || currentSquare.isMine) {
+      return;
+    }
+    squares.push([rowIndex, columnIndex])
+    if (currentSquare.numberOfSurroundingMines === 0) {
+      debugger;
+      processSurroundingSquares(currentGrid, rowIndex, columnIndex, cb)
+    }
+  }
+
+  processSurroundingSquares(currentGrid, pressedSquareRowIndex, pressedSquareColumnIndex, cb)
+
+  return squares;
+}
+
 export function getNextGrid(
   currentGrid: SquareConfig[][],
   pressedSquare: SquareConfig,
   pressedSquareRowIndex: number,
   pressedSquareColumnIndex: number
 ): SquareConfig[][] {
+
+  const squaresToOpen: [number, number][] = getNextSquaresToOpen(pressedSquareRowIndex, pressedSquareColumnIndex, currentGrid)
+
   const nextGrid = produce(currentGrid, (nextGrid) => {
-    nextGrid[pressedSquareRowIndex][pressedSquareColumnIndex].isOpen = true;
+    squaresToOpen.forEach(([row, column]) => {
+      nextGrid[row][column].isOpen = true
+    })
+  })
 
-    // if it's a number, only open the number
-    if (pressedSquare.numberOfSurroundingMines > 0) {
-      return;
-    }
-    // if it's a blank space, the surrounding squares will need to be processed
-    processSurroundingSquares(
-      nextGrid,
-      pressedSquareRowIndex,
-      pressedSquareColumnIndex
-    );
-  });
-
-  return nextGrid;
+  return nextGrid
 }
 
 export function getLosingGrid(

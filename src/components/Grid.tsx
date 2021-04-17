@@ -1,6 +1,6 @@
 import { Group } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
-import { GameState, useStore } from '../store';
+import { GameState } from '../store';
 import { SquareConfig } from '../types';
 import { GridSquare } from './GridSquare';
 import { TOP_DISPLAY_HEIGHT } from './TopDisplay';
@@ -17,18 +17,17 @@ interface Props {
     columnIndex: number,
     square: SquareConfig
   ) => void;
+  grid: SquareConfig[][];
+  gameState: GameState;
 }
 
 export function Grid({
   imageRef,
   handleGridSquareRightClick,
   handleGridSquareMouseUp,
+  grid,
+  gameState,
 }: Props) {
-  const { grid, gameState } = useStore((s) => ({
-    grid: s.grid,
-    gameState: s.gameState,
-  }));
-
   return (
     <Group>
       {(grid as SquareConfig[][]).map((row, rowIndex) => {

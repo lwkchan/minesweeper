@@ -19,7 +19,7 @@ export function getInitialGrid(gameSettings?: GameSettings): SquareConfig[][] {
   // Make initial grid
   const across = Array.from({ length: width }, (_, i) => {
     return {
-      id: `${i}`,
+      id: `${i}`.padStart(2, '0'),
       isOpen: false,
       isMine: false,
       numberOfSurroundingMines: 0,
@@ -28,7 +28,7 @@ export function getInitialGrid(gameSettings?: GameSettings): SquareConfig[][] {
 
   const grid = Array.from({ length: height }, (_, i) =>
     across.map((config) => {
-      return { ...config, id: config.id + `${i}` };
+      return { ...config, id: config.id + `${i}`.padStart(2, '0') };
     })
   );
 

@@ -31,55 +31,44 @@ export function GridContainer({ imageRef }: Props) {
   const gridWidth = grid ? grid[0].length * SQUARE_WIDTH : 0;
   const gridHeight = grid ? grid.length * SQUARE_WIDTH : 0;
 
-  const handleGridSquareMouseUp = React.useCallback(
-    (rowIndex: number, columnIndex: number, square: SquareConfig) => {
-      if (gameState === GameState.LOST || gameState === GameState.WON) {
-        return;
-      }
-      if (!isRunning && gameState === GameState.BEFORE_START) {
-        startGame();
-        startTimer();
-      }
-      if (square.isMine) {
-        stopTimer();
-        setGameLost();
-        const losingGrid = getLosingGrid(
-          grid as SquareConfig[][],
-          square,
-          rowIndex,
-          columnIndex
-        );
-        setGrid(losingGrid);
-        return;
-      }
-      const nextGrid = getNextGrid(
+  const handleGridSquareMouseUp = (
+    rowIndex: number,
+    columnIndex: number,
+    square: SquareConfig
+  ) => {
+    if (gameState === GameState.LOST || gameState === GameState.WON) {
+      return;
+    }
+    if (!isRunning && gameState === GameState.BEFORE_START) {
+      startGame();
+      startTimer();
+    }
+    if (square.isMine) {
+      stopTimer();
+      setGameLost();
+      const losingGrid = getLosingGrid(
         grid as SquareConfig[][],
         square,
         rowIndex,
         columnIndex
       );
-      setGrid(nextGrid);
-    },
-    [
-      gameState,
-      grid,
-      isRunning,
-      setGameLost,
-      setGrid,
-      startGame,
-      startTimer,
-      stopTimer,
-    ]
-  );
-  if (!grid) {
-    return null;
-  }
+      setGrid(losingGrid);
+      return;
+    }
+    const nextGrid = getNextGrid(
+      grid as SquareConfig[][],
+      square,
+      rowIndex,
+      columnIndex
+    );
+    setGrid(nextGrid);
+  };
 
-  function handleGridSquareRightClick(
+  const handleGridSquareRightClick = (
     rowIndex: number,
     columnIndex: number,
     square: SquareConfig
-  ) {
+  ) => {
     if (gameState === GameState.BEFORE_START) {
       startGame();
       startTimer();
@@ -103,6 +92,10 @@ export function GridContainer({ imageRef }: Props) {
     );
 
     setGrid(nextGrid as SquareConfig[][]);
+  };
+
+  if (!grid) {
+    return null;
   }
 
   return (
@@ -122,6 +115,8 @@ export function GridContainer({ imageRef }: Props) {
             time={time}
           />
           <Grid
+            grid={grid}
+            gameState={gameState}
             handleGridSquareMouseUp={handleGridSquareMouseUp}
             handleGridSquareRightClick={handleGridSquareRightClick}
             imageRef={imageRef}
