@@ -10,9 +10,8 @@ export function Minesweeper() {
     isSettingsWindowOpen: s.isSettingsWindowOpen,
     handleSettingsClose: s.setSettingsWindowClosed,
   }));
-  const [imageRef, setImageRef] = React.useState<undefined | HTMLImageElement>(
-    undefined
-  );
+  const [imageRef, setImageRef] =
+    React.useState<undefined | HTMLImageElement>(undefined);
 
   React.useEffect(() => {
     // set up imageRef

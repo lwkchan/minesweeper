@@ -7,3 +7,5 @@ export type SquareConfig = {
   isIncorrectMine?: boolean;
   numberOfSurroundingMines: number;
 };
+
+export type BailOutSquare = [number, number]

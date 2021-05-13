@@ -1,8 +1,12 @@
-import React from 'react';
 import { Layer, Stage } from 'react-konva';
 import { SQUARE_WIDTH } from '../constants';
 import { GameState, useStore } from '../store';
-import { getLosingGrid, getNextGrid, toggleFlag } from '../getNextGrid';
+import {
+  getBailedOutGrid,
+  getLosingGrid,
+  getNextGrid,
+  toggleFlag,
+} from '../getNextGrid';
 import { SquareConfig } from '../types';
 import { useCountUp } from '../useCountUp';
 import { TopDisplay, TOP_DISPLAY_HEIGHT } from './TopDisplay';
@@ -24,6 +28,7 @@ export function GridContainer({ imageRef }: Props) {
     decrementFlag: decrementFlagCount,
     setMinesweeperWindowClosed,
     restartGame,
+    bailOutSquare,
   } = useStore();
   const { stopTimer, startTimer, time, isRunning, resetTimer } = useCountUp(
     gameState === GameState.LOST || gameState === GameState.WON
@@ -36,14 +41,35 @@ export function GridContainer({ imageRef }: Props) {
     columnIndex: number,
     square: SquareConfig
   ) => {
-    if (gameState === GameState.LOST || gameState === GameState.WON) {
+    if (!grid || gameState === GameState.LOST || gameState === GameState.WON) {
       return;
     }
     if (!isRunning && gameState === GameState.BEFORE_START) {
       startGame();
       startTimer();
+
+      // handle any mines which are open on first click
+      if (square.isMine) {
+        const bailedOutGrid = getBailedOutGrid(
+          grid,
+          rowIndex,
+          columnIndex,
+          bailOutSquare
+        );
+
+        const nextGrid = getNextGrid(
+          bailedOutGrid,
+          bailedOutGrid[rowIndex][columnIndex],
+          rowIndex,
+          columnIndex
+        );
+
+        setGrid(nextGrid);
+
+        return;
+      }
     }
-    if (square.isMine) {
+    if (square.isMine && gameState !== GameState.BEFORE_START) {
       stopTimer();
       setGameLost();
       const losingGrid = getLosingGrid(
@@ -91,7 +117,7 @@ export function GridContainer({ imageRef }: Props) {
       columnIndex
     );
 
-    setGrid(nextGrid as SquareConfig[][]);
+    setGrid(nextGrid);
   };
 
   if (!grid) {
