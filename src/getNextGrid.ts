@@ -101,3 +101,42 @@ export function toggleFlag(
     ].isFlagged = !square.isFlagged;
   });
 }
+
+export function getBailedOutGrid(
+  grid: SquareConfig[][],
+  pressedSquareRowIndex: number,
+  pressedSquareColumnIndex: number,
+  [bailOutSquareRow, bailOutSquareColumn]: [number, number]
+): SquareConfig[][] {
+
+  // Calculate the squares to edit outside produce for performance
+  const squaresToSubtractOne: [number, number][] = []
+  processSurroundingSquares(grid, pressedSquareRowIndex, pressedSquareColumnIndex, ({ columnIndex, rowIndex }) => {
+    squaresToSubtractOne.push([rowIndex, columnIndex])
+  })
+
+  const squaresToAddOne: [number, number][] = []
+  processSurroundingSquares(grid, bailOutSquareRow, bailOutSquareColumn, ({ columnIndex, rowIndex }) => {
+    squaresToAddOne.push([rowIndex, columnIndex])
+  })
+
+
+  const nextGrid = produce(grid, (draftGrid) => {
+    // Pressed square is no longer a mine
+    draftGrid[pressedSquareRowIndex][pressedSquareColumnIndex].isMine = false;
+    // Subtract 1 from surrounding squares
+    squaresToSubtractOne.forEach(([row, column]) => {
+      draftGrid[row][column].numberOfSurroundingMines -= 1
+    })
+
+    // now bailout square is a mine
+    draftGrid[bailOutSquareRow][bailOutSquareColumn].isMine = true
+    // add one to surrounding squares
+    squaresToAddOne.forEach(([row, column]) => {
+      draftGrid[row][column].numberOfSurroundingMines += 1
+    })
+  })
+
+
+  return nextGrid
+}

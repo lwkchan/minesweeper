@@ -7,7 +7,7 @@ import {
   gameSettingsConfig,
 } from './gameDifficultyConfig';
 import { getInitialGrid } from './getInitialGrid';
-import { SquareConfig } from './types';
+import { BailOutSquare, SquareConfig } from './types';
 
 function getNumberOfMines(grid: SquareConfig[][]): number {
   return grid.flat().filter((square) => square.isMine).length;
@@ -20,8 +20,11 @@ export enum GameState {
   LOST = 'LOST',
 }
 
+
+
 type State = {
   grid: SquareConfig[][] | undefined;
+  bailOutSquare: BailOutSquare;
   isMineSweeperWindowOpen: boolean;
   setMinesweeperWindowOpen: () => void;
   setMinesweeperWindowClosed: (lastX: number, lastY: number) => void;
@@ -50,7 +53,7 @@ type State = {
 
 export const useStore = create<State>(
   devtools((set, get) => {
-    const grid = getInitialGrid();
+    const [grid, bailOutSquare] = getInitialGrid();
     const numberOfMines = getNumberOfMines(grid);
 
     return {
@@ -82,13 +85,12 @@ export const useStore = create<State>(
         set((state) => ({ ...state, isSettingsWindowOpen: false }));
       },
       grid,
+      bailOutSquare,
       numberOfMines,
       numberOfFlaggedMines: () => get().numberOfMines - get().numberOfFlags,
       setGrid: (newGrid) => {
-        // check if the grid is a winning grid
-        const isWinningGrid = checkIfWinningGrid(newGrid);
 
-        // if it is then set the state as GameState.WON
+        const isWinningGrid = checkIfWinningGrid(newGrid);
 
         set((state) => ({
           ...state,
@@ -118,13 +120,14 @@ export const useStore = create<State>(
         set((state) => {
           const nextGameSettings =
             newGameSettings || get().currentGameSettingsConfig;
-          const grid = getInitialGrid(nextGameSettings);
+          const [grid, bailOutSquare] = getInitialGrid(nextGameSettings);
           const numberOfMines =
             nextGameSettings?.mines || getNumberOfMines(grid);
 
           return {
             ...state,
             grid,
+            bailOutSquare,
             numberOfMines,
             numberOfFlags: 0,
             currentGameSettingsConfig: nextGameSettings,

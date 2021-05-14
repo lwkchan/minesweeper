@@ -4,7 +4,7 @@ import {
   gameSettingsConfig,
 } from './gameDifficultyConfig';
 import { stepThroughSurroundingSquares } from './stepThroughSurroundingSquares';
-import { SquareConfig } from './types';
+import { BailOutSquare, SquareConfig } from './types';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -14,7 +14,10 @@ const defaultGameSettings = gameSettingsConfig[
   Difficulty.MEDIUM
 ] as GameSettings;
 
-export function getInitialGrid(gameSettings?: GameSettings): SquareConfig[][] {
+
+
+
+export function getInitialGrid(gameSettings?: GameSettings): [SquareConfig[][], BailOutSquare] {
   const { width, height, mines } = gameSettings || defaultGameSettings;
   // Make initial grid
   const across = Array.from({ length: width }, (_, i) => {
@@ -35,9 +38,19 @@ export function getInitialGrid(gameSettings?: GameSettings): SquareConfig[][] {
   // Set the mines
   const numberOfMines = mines;
   let numberOfSetMines = 0;
+
+  const bailOutSquare: [number, number] = [getRandomInt(grid[0].length), getRandomInt(grid.length)]
+
   while (numberOfSetMines < numberOfMines) {
-    const columnIndex = getRandomInt(grid[0].length);
-    const rowIndex = getRandomInt(grid.length);
+    const rowIndex = getRandomInt(grid[0].length);
+    if (rowIndex === bailOutSquare[0]) {
+      continue;
+    }
+
+    const columnIndex = getRandomInt(grid.length);
+    if (columnIndex === bailOutSquare[1]) {
+      continue;
+    }
 
     if (grid[rowIndex][columnIndex].isMine) {
       continue;
@@ -53,5 +66,6 @@ export function getInitialGrid(gameSettings?: GameSettings): SquareConfig[][] {
     numberOfSetMines += 1;
   }
 
-  return grid;
+
+  return [grid, bailOutSquare];
 }
