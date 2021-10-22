@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     import('../wasm')
       .then((pkg) => {
-        pkg.greet();
+        pkg.greet("Laura");
       })
       .catch(console.error);
   }, []);

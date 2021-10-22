@@ -12,8 +12,6 @@ module.exports = function override(config, env) {
         }),
     ]);
 
-
-    // Don't let file loader 
     const wasmExtensionRegExp = /\.wasm$/
     config.resolve.extensions.push('.wasm')
     config.module.rules.forEach(rule => {
