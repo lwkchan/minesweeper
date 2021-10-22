@@ -14,10 +14,6 @@ extern {
 }
 
 #[wasm_bindgen]
-pub fn greet(name: &str) {
-    let mut greeting = String::new();
-    greeting.push_str("Hello ");
-    greeting.push_str(name);
-
-    alert(&greeting);
+pub fn greet(message: &str) {
+    alert(&message);
 }
