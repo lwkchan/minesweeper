@@ -2,6 +2,7 @@ import { Taskbar } from './Taskbar';
 import { Minesweeper } from './Minesweeper';
 import { useStore } from '../store';
 import { AboutWindow } from './AboutWindow';
+import { useEffect } from 'react';
 
 import './App.css';
 
@@ -12,6 +13,14 @@ function App() {
       isAboutWindowOpen: s.isAboutWindowOpen,
     };
   });
+
+  useEffect(() => {
+    import('../wasm')
+      .then((pkg) => {
+        pkg.greet();
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="main">

@@ -11,5 +11,19 @@ module.exports = function override(config, env) {
             outDir: path.resolve(__dirname, "src", "wasm"),
         }),
     ]);
+
+
+    // Don't let file loader 
+    const wasmExtensionRegExp = /\.wasm$/
+    config.resolve.extensions.push('.wasm')
+    config.module.rules.forEach(rule => {
+      (rule.oneOf || []).forEach(oneOf => {
+        if (oneOf.loader && oneOf.loader.indexOf('file-loader') >= 0) {
+          oneOf.exclude.push(wasmExtensionRegExp)
+        }
+      })
+    })
+
+
     return config
   }
