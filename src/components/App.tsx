@@ -3,15 +3,19 @@ import { Minesweeper } from './Minesweeper';
 import { useStore } from '../store';
 import { AboutWindow } from './AboutWindow';
 
+
 import './App.css';
+import { useWasm } from '../useWasm';
 
 function App() {
+  useWasm()
   const { isMineSweeperWindowOpen, isAboutWindowOpen } = useStore((s) => {
     return {
       isMineSweeperWindowOpen: s.isMineSweeperWindowOpen,
       isAboutWindowOpen: s.isAboutWindowOpen,
     };
   });
+
 
   return (
     <div className="main">
