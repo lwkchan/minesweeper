@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 export function useWasm()  {
     return useEffect(() => {
-        import('./wasm')
+        import('../wasm')
           .then((pkg) => {
             pkg.greet(
                 `👋 Hello. 

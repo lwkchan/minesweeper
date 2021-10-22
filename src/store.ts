@@ -1,12 +1,12 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { checkIfWinningGrid } from './checkIfWinningGrid';
+import { checkIfWinningGrid } from './gridLogic/checkIfWinningGrid';
 import {
   Difficulty,
   GameSettings,
   gameSettingsConfig,
 } from './gameDifficultyConfig';
-import { getInitialGrid } from './getInitialGrid';
+import { getInitialGrid } from './gridLogic/getInitialGrid';
 import { BailOutSquare, SquareConfig } from './types';
 
 function getNumberOfMines(grid: SquareConfig[][]): number {

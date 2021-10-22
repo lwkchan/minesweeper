@@ -1,7 +1,7 @@
 import React from 'react';
 import minesweeperLogo from '../assets/minesweeperStartLogo.png';
 import { useStore } from '../store';
-import { useHandleClickAway } from '../useHandleClickAway';
+import { useHandleClickAway } from '../hooks/useHandleClickAway';
 import './Taskbar.css';
 
 export function Taskbar() {

@@ -5,7 +5,7 @@ import { AboutWindow } from './AboutWindow';
 
 
 import './App.css';
-import { useWasm } from '../useWasm';
+import { useWasm } from '../hooks/useWasm';
 
 function App() {
   useWasm()

@@ -1,5 +1,5 @@
 import React from 'react';
-import minesweeperSpriteSheet from './assets/minesweeperSprite.png';
+import minesweeperSpriteSheet from '../assets/minesweeperSprite.png';
 
 // returns if it's loaded
 export function useSpriteSheetImageRef(): HTMLImageElement | undefined {

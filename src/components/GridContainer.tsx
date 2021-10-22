@@ -6,9 +6,9 @@ import {
   getLosingGrid,
   getNextGrid,
   toggleFlag,
-} from '../getNextGrid';
+} from '../gridLogic/getNextGrid';
 import { SquareConfig } from '../types';
-import { useCountUp } from '../useCountUp';
+import { useCountUp } from '../hooks/useCountUp';
 import { TopDisplay, TOP_DISPLAY_HEIGHT } from './TopDisplay';
 import { Grid } from './Grid';
 import { MinesweeperWindow } from './MinesweeperWindow';

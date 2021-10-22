@@ -3,7 +3,7 @@ import {
   SquareWithPosition,
   stepThroughSurroundingSquares,
 } from './stepThroughSurroundingSquares';
-import { SquareConfig } from './types';
+import { SquareConfig } from '../types';
 
 function processSurroundingSquares(
   nextGrid: SquareConfig[][],

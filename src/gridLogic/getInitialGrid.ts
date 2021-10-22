@@ -2,9 +2,9 @@ import {
   Difficulty,
   GameSettings,
   gameSettingsConfig,
-} from './gameDifficultyConfig';
+} from '../gameDifficultyConfig';
 import { stepThroughSurroundingSquares } from './stepThroughSurroundingSquares';
-import { BailOutSquare, SquareConfig } from './types';
+import { BailOutSquare, SquareConfig } from '../types';
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
