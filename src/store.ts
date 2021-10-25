@@ -9,9 +9,11 @@ import {
 import { getInitialGrid } from './gridLogic/getInitialGrid';
 import { BailOutSquare, SquareConfig } from './types';
 
+
 function getNumberOfMines(grid: SquareConfig[][]): number {
   return grid.flat().filter((square) => square.isMine).length;
 }
+
 
 export enum GameState {
   BEFORE_START = 'BEFORE_START',
@@ -19,8 +21,6 @@ export enum GameState {
   WON = 'WON',
   LOST = 'LOST',
 }
-
-
 
 type State = {
   grid: SquareConfig[][] | undefined;
@@ -49,14 +49,22 @@ type State = {
   setIsGridSquarePressed: (isGridSquarePressed: boolean) => void;
   gameState: GameState;
   currentGameSettingsConfig: GameSettings;
+  wasm: typeof import("/Users/laurachan/personal/minesweeper/src/wasm/index") | null;
 };
+
 
 export const useStore = create<State>(
   devtools((set, get) => {
     const [grid, bailOutSquare] = getInitialGrid();
     const numberOfMines = getNumberOfMines(grid);
 
+    import('./wasm').then((wasm) => {
+      set((state) => ({ ...state, wasm }))
+      wasm.greet('Wasm loaded!')
+    })
+
     return {
+      wasm: null,
       isMineSweeperWindowOpen: false,
       setMinesweeperWindowOpen: () => {
         set((state) => {

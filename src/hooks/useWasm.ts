@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 export function useWasm()  {
+  
     return useEffect(() => {
         import('../wasm')
           .then((pkg) => {
