@@ -1,29 +1,24 @@
-import create from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { checkIfWinningGrid } from './gridLogic/checkIfWinningGrid';
-import {
-  Difficulty,
-  GameSettings,
-  gameSettingsConfig,
-} from './gameDifficultyConfig';
-import { getInitialGrid } from './gridLogic/getInitialGrid';
-import { BailOutSquare, SquareConfig } from './types';
+import create from "zustand";
+import { devtools } from "zustand/middleware";
+import { checkIfWinningGrid } from "./gridLogic/checkIfWinningGrid";
+import { Difficulty, GameSettings, gameSettingsConfig } from "./gameDifficultyConfig";
+import { getInitialGrid } from "./gridLogic/getInitialGrid";
+import { BailOutSquare, SquareConfig } from "./types";
 
 function getNumberOfMines(grid: SquareConfig[][]): number {
   return grid.flat().filter((square) => square.isMine).length;
 }
 
 export enum GameState {
-  BEFORE_START = 'BEFORE_START',
-  IN_PROGRESS = 'IN_PROGRESS',
-  WON = 'WON',
-  LOST = 'LOST',
+  BEFORE_START = "BEFORE_START",
+  IN_PROGRESS = "IN_PROGRESS",
+  WON = "WON",
+  LOST = "LOST",
 }
-
-
 
 type State = {
   grid: SquareConfig[][] | undefined;
+  // Guarantees that the first square will never be a bomb
   bailOutSquare: BailOutSquare;
   isMineSweeperWindowOpen: boolean;
   setMinesweeperWindowOpen: () => void;
@@ -75,8 +70,12 @@ export const useStore = create<State>(
         }));
       },
       isAboutWindowOpen: false,
-      setAboutWindowOpen: () => { set((state) => ({ ...state, isAboutWindowOpen: true })) },
-      setAboutWindowClosed: () => { set((state) => ({ ...state, isAboutWindowOpen: false })) },
+      setAboutWindowOpen: () => {
+        set((state) => ({ ...state, isAboutWindowOpen: true }));
+      },
+      setAboutWindowClosed: () => {
+        set((state) => ({ ...state, isAboutWindowOpen: false }));
+      },
       isSettingsWindowOpen: false,
       setSettingsWindowOpen: () => {
         set((state) => ({ ...state, isSettingsWindowOpen: true }));
@@ -89,7 +88,6 @@ export const useStore = create<State>(
       numberOfMines,
       numberOfFlaggedMines: () => get().numberOfMines - get().numberOfFlags,
       setGrid: (newGrid) => {
-
         const isWinningGrid = checkIfWinningGrid(newGrid);
 
         set((state) => ({
@@ -102,10 +100,8 @@ export const useStore = create<State>(
       setIsGridSquarePressed: (isGridSquarePressed) =>
         set((state) => ({ ...state, isGridSquarePressed })),
       numberOfFlags: 0,
-      incrementFlag: () =>
-        set((state) => ({ ...state, numberOfFlags: state.numberOfFlags + 1 })),
-      decrementFlag: () =>
-        set((state) => ({ ...state, numberOfFlags: state.numberOfFlags - 1 })),
+      incrementFlag: () => set((state) => ({ ...state, numberOfFlags: state.numberOfFlags + 1 })),
+      decrementFlag: () => set((state) => ({ ...state, numberOfFlags: state.numberOfFlags - 1 })),
       gameState: GameState.BEFORE_START,
       startGame: () => {
         set((state) => ({ ...state, gameState: GameState.IN_PROGRESS }));
@@ -113,16 +109,12 @@ export const useStore = create<State>(
       setGameLost: () => {
         set((state) => ({ ...state, gameState: GameState.LOST }));
       },
-      currentGameSettingsConfig: gameSettingsConfig[
-        Difficulty.MEDIUM
-      ] as GameSettings,
+      currentGameSettingsConfig: gameSettingsConfig[Difficulty.MEDIUM] as GameSettings,
       restartGame: (newGameSettings?: GameSettings) => {
         set((state) => {
-          const nextGameSettings =
-            newGameSettings || get().currentGameSettingsConfig;
+          const nextGameSettings = newGameSettings || get().currentGameSettingsConfig;
           const [grid, bailOutSquare] = getInitialGrid(nextGameSettings);
-          const numberOfMines =
-            nextGameSettings?.mines || getNumberOfMines(grid);
+          const numberOfMines = nextGameSettings?.mines || getNumberOfMines(grid);
 
           return {
             ...state,
