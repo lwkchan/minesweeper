@@ -1,4 +1,4 @@
-import { SquareConfig } from '../types';
+import { SquareConfig } from "../types";
 
 export type SquareWithPosition = {
   square: SquareConfig;

@@ -42,7 +42,9 @@
   cursor: default;
 }
 
-.MinesweeperWindow__menuButton:hover:not(.MinesweeperWindow__menuButton--active) {
+.MinesweeperWindow__menuButton:hover:not(
+    .MinesweeperWindow__menuButton--active
+  ) {
   box-shadow: 1px 0 rgb(255, 255, 255) inset,
     -1px -1px 0 rgb(128, 128, 128) inset;
 }

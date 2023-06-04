@@ -1,8 +1,8 @@
-import React from 'react';
-import minesweeperLogo from '../assets/minesweeperStartLogo.png';
-import { useStore } from '../store';
-import { useHandleClickAway } from '../hooks/useHandleClickAway';
-import './Taskbar.css';
+import React from "react";
+import minesweeperLogo from "../assets/minesweeperStartLogo.png";
+import { useStore } from "../store";
+import { useHandleClickAway } from "../hooks/useHandleClickAway";
+import "./Taskbar.css";
 
 export function Taskbar() {
   const openMinesweeper = useStore((s) => s.setMinesweeperWindowOpen);
@@ -32,7 +32,7 @@ export function Taskbar() {
     <div ref={taskbarRef} className="taskbar">
       <button
         onClick={handleStartClick}
-        className={`taskbar__start ${showMenu ? 'taskbar__start--open' : ''}`}
+        className={`taskbar__start ${showMenu ? "taskbar__start--open" : ""}`}
       ></button>
       {showMenu && (
         <div className="window taskbar__startMenu">

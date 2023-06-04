@@ -1,7 +1,12 @@
 import { Layer, Stage } from "react-konva";
 import { SQUARE_WIDTH } from "../constants";
 import { GameState, useStore } from "../store";
-import { getBailedOutGrid, getLosingGrid, getNextGrid, toggleFlag } from "../gridLogic/getNextGrid";
+import {
+  getBailedOutGrid,
+  getLosingGrid,
+  getNextGrid,
+  toggleFlag,
+} from "../gridLogic/getNextGrid";
 import { SquareConfig } from "../types";
 import { useCountUp } from "../hooks/useCountUp";
 import { TopDisplay, TOP_DISPLAY_HEIGHT } from "./TopDisplay";
@@ -31,7 +36,11 @@ export function GridContainer({ imageRef }: Props) {
   const gridWidth = grid ? grid[0].length * SQUARE_WIDTH : 0;
   const gridHeight = grid ? grid.length * SQUARE_WIDTH : 0;
 
-  const handleGridSquareMouseUp = (rowIndex: number, columnIndex: number, square: SquareConfig) => {
+  const handleGridSquareMouseUp = (
+    rowIndex: number,
+    columnIndex: number,
+    square: SquareConfig
+  ) => {
     if (!grid || gameState === GameState.LOST || gameState === GameState.WON) {
       return;
     }
@@ -41,7 +50,12 @@ export function GridContainer({ imageRef }: Props) {
 
       // handle any mines which are open on first click
       if (square.isMine) {
-        const bailedOutGrid = getBailedOutGrid(grid, rowIndex, columnIndex, bailOutSquare);
+        const bailedOutGrid = getBailedOutGrid(
+          grid,
+          rowIndex,
+          columnIndex,
+          bailOutSquare
+        );
 
         const nextGrid = getNextGrid(
           bailedOutGrid,
@@ -58,11 +72,21 @@ export function GridContainer({ imageRef }: Props) {
     if (square.isMine && gameState !== GameState.BEFORE_START) {
       stopTimer();
       setGameLost();
-      const losingGrid = getLosingGrid(grid as SquareConfig[][], square, rowIndex, columnIndex);
+      const losingGrid = getLosingGrid(
+        grid as SquareConfig[][],
+        square,
+        rowIndex,
+        columnIndex
+      );
       setGrid(losingGrid);
       return;
     }
-    const nextGrid = getNextGrid(grid as SquareConfig[][], square, rowIndex, columnIndex);
+    const nextGrid = getNextGrid(
+      grid as SquareConfig[][],
+      square,
+      rowIndex,
+      columnIndex
+    );
     setGrid(nextGrid);
   };
 
@@ -86,7 +110,12 @@ export function GridContainer({ imageRef }: Props) {
     } else {
       incrementFlagCount();
     }
-    const nextGrid = toggleFlag(grid as SquareConfig[][], square, rowIndex, columnIndex);
+    const nextGrid = toggleFlag(
+      grid as SquareConfig[][],
+      square,
+      rowIndex,
+      columnIndex
+    );
 
     setGrid(nextGrid);
   };
@@ -101,10 +130,16 @@ export function GridContainer({ imageRef }: Props) {
         setMinesweeperWindowClosed(x, y);
         restartGame(); // restart for next time
       }}
-      width={gridWidth}>
+      width={gridWidth}
+    >
       <Stage width={gridWidth} height={gridHeight + TOP_DISPLAY_HEIGHT}>
         <Layer>
-          <TopDisplay width={gridWidth} imageRef={imageRef} resetTimer={resetTimer} time={time} />
+          <TopDisplay
+            width={gridWidth}
+            imageRef={imageRef}
+            resetTimer={resetTimer}
+            time={time}
+          />
           <Grid
             grid={grid}
             gameState={gameState}

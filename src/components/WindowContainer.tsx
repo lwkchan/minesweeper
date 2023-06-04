@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   width: number;
@@ -60,24 +60,24 @@ export function WindowContainer({
     }
   }, [state.isDragging]);
 
-function handleClose() {
-  onClose(state.positionX, state.positionY)
-}
+  function handleClose() {
+    onClose(state.positionX, state.positionY);
+  }
 
   React.useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [handleMouseMove, handleMouseUp]);
   return (
     <div
       style={{
         width,
-        position: 'absolute',
+        position: "absolute",
         left: `${state.positionX}px`,
         top: `${state.positionY}px`,
       }}
@@ -87,11 +87,11 @@ function handleClose() {
       <div onMouseDown={handleMouseDown} className="noHighlight title-bar">
         <div
           className="title-bar-text"
-          style={{ display: 'flex', alignItems: 'center' }}
+          style={{ display: "flex", alignItems: "center" }}
         >
           {iconSrc && iconAlt && (
             <img
-              style={{ maxHeight: '18px', marginRight: '5px' }}
+              style={{ maxHeight: "18px", marginRight: "5px" }}
               src={iconSrc}
               alt={iconAlt}
             />

@@ -1,5 +1,5 @@
-import { Sprite } from 'react-konva';
-import { numberAnimationsConfig } from '../animationsConfig';
+import { Sprite } from "react-konva";
+import { numberAnimationsConfig } from "../animationsConfig";
 
 interface Props {
   number: number;
@@ -13,7 +13,7 @@ export const THREE_DIGITS_DISPLAY_WIDTH = DIGIT_WIDTH * 3;
 export const THREE_DIGITS_DISPLAY_HEIGHT = 23;
 
 function getDigitsFromNumber(number: number): [string, string, string] {
-  return number.toString().padStart(3, '0').split('').slice(0, 3) as [
+  return number.toString().padStart(3, "0").split("").slice(0, 3) as [
     string,
     string,
     string

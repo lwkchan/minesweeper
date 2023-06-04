@@ -1,7 +1,11 @@
 import create from "zustand";
 import { devtools } from "zustand/middleware";
 import { checkIfWinningGrid } from "./gridLogic/checkIfWinningGrid";
-import { Difficulty, GameSettings, gameSettingsConfig } from "./gameDifficultyConfig";
+import {
+  Difficulty,
+  GameSettings,
+  gameSettingsConfig,
+} from "./gameDifficultyConfig";
 import { getInitialGrid } from "./gridLogic/getInitialGrid";
 import { BailOutSquare, SquareConfig } from "./types";
 
@@ -100,8 +104,10 @@ export const useStore = create<State>(
       setIsGridSquarePressed: (isGridSquarePressed) =>
         set((state) => ({ ...state, isGridSquarePressed })),
       numberOfFlags: 0,
-      incrementFlag: () => set((state) => ({ ...state, numberOfFlags: state.numberOfFlags + 1 })),
-      decrementFlag: () => set((state) => ({ ...state, numberOfFlags: state.numberOfFlags - 1 })),
+      incrementFlag: () =>
+        set((state) => ({ ...state, numberOfFlags: state.numberOfFlags + 1 })),
+      decrementFlag: () =>
+        set((state) => ({ ...state, numberOfFlags: state.numberOfFlags - 1 })),
       gameState: GameState.BEFORE_START,
       startGame: () => {
         set((state) => ({ ...state, gameState: GameState.IN_PROGRESS }));
@@ -109,12 +115,16 @@ export const useStore = create<State>(
       setGameLost: () => {
         set((state) => ({ ...state, gameState: GameState.LOST }));
       },
-      currentGameSettingsConfig: gameSettingsConfig[Difficulty.MEDIUM] as GameSettings,
+      currentGameSettingsConfig: gameSettingsConfig[
+        Difficulty.MEDIUM
+      ] as GameSettings,
       restartGame: (newGameSettings?: GameSettings) => {
         set((state) => {
-          const nextGameSettings = newGameSettings || get().currentGameSettingsConfig;
+          const nextGameSettings =
+            newGameSettings || get().currentGameSettingsConfig;
           const [grid, bailOutSquare] = getInitialGrid(nextGameSettings);
-          const numberOfMines = nextGameSettings?.mines || getNumberOfMines(grid);
+          const numberOfMines =
+            nextGameSettings?.mines || getNumberOfMines(grid);
 
           return {
             ...state,

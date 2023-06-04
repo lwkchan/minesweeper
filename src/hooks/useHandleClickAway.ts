@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export function useHandleClickAway(
   onClickAway: (e: MouseEvent) => void,
@@ -15,10 +15,10 @@ export function useHandleClickAway(
       onClickAway(e);
     };
 
-    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener("mousedown", handleMouseDown);
 
     return () => {
-      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener("mousedown", handleMouseDown);
     };
   }, [elementRef, onClickAway]);
 }

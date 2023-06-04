@@ -1,4 +1,4 @@
-import { Difficulty } from '../../gameDifficultyConfig';
+import { Difficulty } from "../../gameDifficultyConfig";
 
 interface Props {
   difficulty: Difficulty;

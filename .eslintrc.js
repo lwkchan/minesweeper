@@ -6,24 +6,21 @@ module.exports = {
     jest: true,
     node: true,
   },
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: "module",
   },
-  ignorePatterns: ['src/rust/**', 'src/wasm/**'],
-  extends: [
-    "react-app",
-    "react-app/jest"
-  ],
+  ignorePatterns: ["src/rust/**", "src/wasm/**"],
+  extends: ["react-app", "react-app/jest"],
   root: true,
   rules: {},
   settings: {
     react: {
-      version: 'detect',
+      version: "detect",
     },
   },
 };

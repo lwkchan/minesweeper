@@ -2,9 +2,9 @@ import {
   Difficulty,
   GameSettings,
   gameSettingsConfig,
-} from '../gameDifficultyConfig';
-import { stepThroughSurroundingSquares } from './stepThroughSurroundingSquares';
-import { BailOutSquare, SquareConfig } from '../types';
+} from "../gameDifficultyConfig";
+import { stepThroughSurroundingSquares } from "./stepThroughSurroundingSquares";
+import { BailOutSquare, SquareConfig } from "../types";
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -14,15 +14,14 @@ const defaultGameSettings = gameSettingsConfig[
   Difficulty.MEDIUM
 ] as GameSettings;
 
-
-
-
-export function getInitialGrid(gameSettings?: GameSettings): [SquareConfig[][], BailOutSquare] {
+export function getInitialGrid(
+  gameSettings?: GameSettings
+): [SquareConfig[][], BailOutSquare] {
   const { width, height, mines } = gameSettings || defaultGameSettings;
   // Make initial grid
   const across = Array.from({ length: width }, (_, i) => {
     return {
-      id: `${i}`.padStart(2, '0'),
+      id: `${i}`.padStart(2, "0"),
       isOpen: false,
       isMine: false,
       numberOfSurroundingMines: 0,
@@ -31,7 +30,7 @@ export function getInitialGrid(gameSettings?: GameSettings): [SquareConfig[][], 
 
   const grid = Array.from({ length: height }, (_, i) =>
     across.map((config) => {
-      return { ...config, id: config.id + `${i}`.padStart(2, '0') };
+      return { ...config, id: config.id + `${i}`.padStart(2, "0") };
     })
   );
 
@@ -39,7 +38,10 @@ export function getInitialGrid(gameSettings?: GameSettings): [SquareConfig[][], 
   const numberOfMines = mines;
   let numberOfSetMines = 0;
 
-  const bailOutSquare: [number, number] = [getRandomInt(grid[0].length), getRandomInt(grid.length)]
+  const bailOutSquare: [number, number] = [
+    getRandomInt(grid[0].length),
+    getRandomInt(grid.length),
+  ];
 
   while (numberOfSetMines < numberOfMines) {
     const rowIndex = getRandomInt(grid[0].length);
@@ -65,7 +67,6 @@ export function getInitialGrid(gameSettings?: GameSettings): [SquareConfig[][], 
 
     numberOfSetMines += 1;
   }
-
 
   return [grid, bailOutSquare];
 }

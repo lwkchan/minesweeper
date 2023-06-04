@@ -1,4 +1,4 @@
-import { SquareConfig } from '../types';
+import { SquareConfig } from "../types";
 
 export function checkIfWinningGrid(grid: SquareConfig[][]): boolean {
   const squares = grid.flat();

@@ -1,10 +1,10 @@
-import React from 'react';
-import { Sprite } from 'react-konva';
+import React from "react";
+import { Sprite } from "react-konva";
 import {
   FaceAnimationKey,
   faceButtonAnimationsConfig,
-} from '../animationsConfig';
-import { GameState, useStore } from '../store';
+} from "../animationsConfig";
+import { GameState, useStore } from "../store";
 
 function getFaceAnimation(
   isPressed: boolean,
@@ -12,18 +12,18 @@ function getFaceAnimation(
   gameState: GameState
 ): FaceAnimationKey {
   if (isPressed) {
-    return 'pressedSmile';
+    return "pressedSmile";
   }
   if (gameState === GameState.LOST) {
-    return 'sad';
+    return "sad";
   }
   if (gameState === GameState.WON) {
-    return 'sunglasses';
+    return "sunglasses";
   }
   if (isGridSquarePressed) {
-    return 'surprised';
+    return "surprised";
   }
-  return 'smile';
+  return "smile";
 }
 
 export const FACE_BUTTON_HEIGHT = 26;

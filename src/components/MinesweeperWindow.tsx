@@ -1,10 +1,10 @@
-import React from 'react';
-import minesweeperIcon from '../assets/minesweeperIcon.png';
-import { useStore } from '../store';
-import { useHandleClickAway } from '../hooks/useHandleClickAway';
+import React from "react";
+import minesweeperIcon from "../assets/minesweeperIcon.png";
+import { useStore } from "../store";
+import { useHandleClickAway } from "../hooks/useHandleClickAway";
 
-import './MinesweeperWindow.css';
-import { WindowContainer } from './WindowContainer';
+import "./MinesweeperWindow.css";
+import { WindowContainer } from "./WindowContainer";
 
 interface Props {
   width: number;
@@ -48,7 +48,7 @@ export function MinesweeperWindow({ width, children, onClose }: Props) {
         <button
           onClick={handleFileOpen}
           className={`MinesweeperWindow__menuButton ${
-            isFileMenuOpen ? 'MinesweeperWindow__menuButton--active' : ''
+            isFileMenuOpen ? "MinesweeperWindow__menuButton--active" : ""
           }`}
         >
           File

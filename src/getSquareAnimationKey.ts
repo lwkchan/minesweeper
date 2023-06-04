@@ -1,36 +1,36 @@
-import { GridAnimationKey } from './animationsConfig';
-import { SquareConfig } from './types';
+import { GridAnimationKey } from "./animationsConfig";
+import { SquareConfig } from "./types";
 
 export function getSquareAnimationKey(
   square: SquareConfig,
   isPressed: boolean
 ): GridAnimationKey {
   if (isPressed) {
-    return 'open';
+    return "open";
   }
 
   if (square.isFlagged) {
-    return 'flag';
+    return "flag";
   }
 
   if (!square.isOpen) {
-    return 'closed';
+    return "closed";
   }
 
   if (square.isIncorrectMine) {
-    return 'incorrectMine';
+    return "incorrectMine";
   }
 
   if (square.isBlownUpMine) {
-    return 'blownUpMine';
+    return "blownUpMine";
   }
 
   if (square.isMine && square.isOpen) {
-    return 'discoveredMine';
+    return "discoveredMine";
   }
 
   if (square.numberOfSurroundingMines === 0) {
-    return 'open';
+    return "open";
   }
 
   return square.numberOfSurroundingMines.toString() as GridAnimationKey;

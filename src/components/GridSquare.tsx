@@ -1,10 +1,10 @@
-import React from 'react';
-import { KonvaEventObject } from 'konva/types/Node';
-import { Sprite } from 'react-konva';
-import { gridAnimationsConfig } from '../animationsConfig';
-import { getSquareAnimationKey } from '../getSquareAnimationKey';
-import { SquareConfig } from '../types';
-import { useStore } from '../store';
+import React from "react";
+import { KonvaEventObject } from "konva/types/Node";
+import { Sprite } from "react-konva";
+import { gridAnimationsConfig } from "../animationsConfig";
+import { getSquareAnimationKey } from "../getSquareAnimationKey";
+import { SquareConfig } from "../types";
+import { useStore } from "../store";
 
 const mouseButton: { [key: string]: number } = {
   leftClick: 0,

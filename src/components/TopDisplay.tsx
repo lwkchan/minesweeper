@@ -1,11 +1,11 @@
-import { Rect, Group } from 'react-konva';
-import { useStore } from '../store';
+import { Rect, Group } from "react-konva";
+import { useStore } from "../store";
 import {
   ThreeDigitsDisplay,
   THREE_DIGITS_DISPLAY_HEIGHT,
   THREE_DIGITS_DISPLAY_WIDTH,
-} from './ThreeDigitsDisplay';
-import { FaceButton, FACE_BUTTON_HEIGHT } from './FaceButton';
+} from "./ThreeDigitsDisplay";
+import { FaceButton, FACE_BUTTON_HEIGHT } from "./FaceButton";
 
 export const TOP_DISPLAY_HEIGHT = 52;
 const SIDE_PADDING = 5;

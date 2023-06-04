@@ -1,5 +1,5 @@
-import { ChangeEvent } from 'react';
-import { GameSettings } from '../../gameDifficultyConfig';
+import { ChangeEvent } from "react";
+import { GameSettings } from "../../gameDifficultyConfig";
 
 export type CustomGameConfigForm = Record<keyof GameSettings, string>;
 

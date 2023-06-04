@@ -1,5 +1,5 @@
-import { useStore } from '../store';
-import { WindowContainer } from './WindowContainer';
+import { useStore } from "../store";
+import { WindowContainer } from "./WindowContainer";
 
 export function AboutWindow() {
   const closeAboutWindow = useStore((s) => {
@@ -12,7 +12,7 @@ export function AboutWindow() {
           Built by <a href="https://twitter.com/lwkchan">@lwkchan</a>
         </p>
         <p>
-          Source code on{' '}
+          Source code on{" "}
           <a href="https://github.com/lwkchan/minesweeper">Github</a>
         </p>
       </div>

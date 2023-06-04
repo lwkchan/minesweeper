@@ -1,9 +1,9 @@
-import produce from 'immer';
+import produce from "immer";
 import {
   SquareWithPosition,
   stepThroughSurroundingSquares,
-} from './stepThroughSurroundingSquares';
-import { SquareConfig } from '../types';
+} from "./stepThroughSurroundingSquares";
+import { SquareConfig } from "../types";
 
 function processSurroundingSquares(
   nextGrid: SquareConfig[][],
@@ -19,25 +19,44 @@ function processSurroundingSquares(
   );
 }
 
-const getNextSquaresToOpen = (pressedSquareRowIndex: number, pressedSquareColumnIndex: number, currentGrid: SquareConfig[][],): [number, number][] => {
-  let squares: [number, number][] = [[pressedSquareRowIndex, pressedSquareColumnIndex]]
-  const cb = ({ square: currentSquare, rowIndex, columnIndex }: SquareWithPosition) => {
+const getNextSquaresToOpen = (
+  pressedSquareRowIndex: number,
+  pressedSquareColumnIndex: number,
+  currentGrid: SquareConfig[][]
+): [number, number][] => {
+  let squares: [number, number][] = [
+    [pressedSquareRowIndex, pressedSquareColumnIndex],
+  ];
+  const cb = ({
+    square: currentSquare,
+    rowIndex,
+    columnIndex,
+  }: SquareWithPosition) => {
     if (squares.some(([r, c]) => rowIndex === r && c === columnIndex)) {
       return;
     }
-    if (currentSquare.isOpen || currentSquare.isFlagged || currentSquare.isMine) {
+    if (
+      currentSquare.isOpen ||
+      currentSquare.isFlagged ||
+      currentSquare.isMine
+    ) {
       return;
     }
-    squares.push([rowIndex, columnIndex])
+    squares.push([rowIndex, columnIndex]);
     if (currentSquare.numberOfSurroundingMines === 0) {
-      processSurroundingSquares(currentGrid, rowIndex, columnIndex, cb)
+      processSurroundingSquares(currentGrid, rowIndex, columnIndex, cb);
     }
-  }
+  };
 
-  processSurroundingSquares(currentGrid, pressedSquareRowIndex, pressedSquareColumnIndex, cb)
+  processSurroundingSquares(
+    currentGrid,
+    pressedSquareRowIndex,
+    pressedSquareColumnIndex,
+    cb
+  );
 
   return squares;
-}
+};
 
 export function getNextGrid(
   currentGrid: SquareConfig[][],
@@ -45,16 +64,19 @@ export function getNextGrid(
   pressedSquareRowIndex: number,
   pressedSquareColumnIndex: number
 ): SquareConfig[][] {
-
-  const squaresToOpen: [number, number][] = getNextSquaresToOpen(pressedSquareRowIndex, pressedSquareColumnIndex, currentGrid)
+  const squaresToOpen: [number, number][] = getNextSquaresToOpen(
+    pressedSquareRowIndex,
+    pressedSquareColumnIndex,
+    currentGrid
+  );
 
   const nextGrid = produce(currentGrid, (nextGrid) => {
     squaresToOpen.forEach(([row, column]) => {
-      nextGrid[row][column].isOpen = true
-    })
-  })
+      nextGrid[row][column].isOpen = true;
+    });
+  });
 
-  return nextGrid
+  return nextGrid;
 }
 
 export function getLosingGrid(
@@ -96,9 +118,8 @@ export function toggleFlag(
   columnIndex: number
 ): SquareConfig[][] {
   return produce(grid, (draftGrid) => {
-    (draftGrid as SquareConfig[][])[rowIndex][
-      columnIndex
-    ].isFlagged = !square.isFlagged;
+    (draftGrid as SquareConfig[][])[rowIndex][columnIndex].isFlagged =
+      !square.isFlagged;
   });
 }
 
@@ -108,35 +129,42 @@ export function getBailedOutGrid(
   pressedSquareColumnIndex: number,
   [bailOutSquareRow, bailOutSquareColumn]: [number, number]
 ): SquareConfig[][] {
-
   // Calculate the squares to edit outside produce for performance
-  const squaresToSubtractOne: [number, number][] = []
-  processSurroundingSquares(grid, pressedSquareRowIndex, pressedSquareColumnIndex, ({ columnIndex, rowIndex }) => {
-    squaresToSubtractOne.push([rowIndex, columnIndex])
-  })
+  const squaresToSubtractOne: [number, number][] = [];
+  processSurroundingSquares(
+    grid,
+    pressedSquareRowIndex,
+    pressedSquareColumnIndex,
+    ({ columnIndex, rowIndex }) => {
+      squaresToSubtractOne.push([rowIndex, columnIndex]);
+    }
+  );
 
-  const squaresToAddOne: [number, number][] = []
-  processSurroundingSquares(grid, bailOutSquareRow, bailOutSquareColumn, ({ columnIndex, rowIndex }) => {
-    squaresToAddOne.push([rowIndex, columnIndex])
-  })
-
+  const squaresToAddOne: [number, number][] = [];
+  processSurroundingSquares(
+    grid,
+    bailOutSquareRow,
+    bailOutSquareColumn,
+    ({ columnIndex, rowIndex }) => {
+      squaresToAddOne.push([rowIndex, columnIndex]);
+    }
+  );
 
   const nextGrid = produce(grid, (draftGrid) => {
     // Pressed square is no longer a mine
     draftGrid[pressedSquareRowIndex][pressedSquareColumnIndex].isMine = false;
     // Subtract 1 from surrounding squares
     squaresToSubtractOne.forEach(([row, column]) => {
-      draftGrid[row][column].numberOfSurroundingMines -= 1
-    })
+      draftGrid[row][column].numberOfSurroundingMines -= 1;
+    });
 
     // now bailout square is a mine
-    draftGrid[bailOutSquareRow][bailOutSquareColumn].isMine = true
+    draftGrid[bailOutSquareRow][bailOutSquareColumn].isMine = true;
     // add one to surrounding squares
     squaresToAddOne.forEach(([row, column]) => {
-      draftGrid[row][column].numberOfSurroundingMines += 1
-    })
-  })
+      draftGrid[row][column].numberOfSurroundingMines += 1;
+    });
+  });
 
-
-  return nextGrid
+  return nextGrid;
 }

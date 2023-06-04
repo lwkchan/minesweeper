@@ -1,8 +1,8 @@
 export enum Difficulty {
-  EASY = 'Easy',
-  MEDIUM = 'Medium',
-  EXPERT = 'Expert',
-  CUSTOM = 'Custom',
+  EASY = "Easy",
+  MEDIUM = "Medium",
+  EXPERT = "Expert",
+  CUSTOM = "Custom",
 }
 
 export type GameSettings = { height: number; width: number; mines: number };

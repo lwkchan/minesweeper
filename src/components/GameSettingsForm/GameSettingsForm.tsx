@@ -1,27 +1,25 @@
-import React from 'react';
-import { useStore } from '../../store';
+import React from "react";
+import { useStore } from "../../store";
 import {
   Difficulty,
   GameSettings,
   gameSettingsConfig,
-} from '../../gameDifficultyConfig';
-import { DifficultyFieldRow } from './DifficultyFieldRow';
-import { CustomConfigForm, CustomGameConfigForm } from './CustomConfigForm';
-import { validateCustomSettings } from './validateCustomSettings';
-import { MAX_CUSTOM_DIMENSION } from '../../constants';
+} from "../../gameDifficultyConfig";
+import { DifficultyFieldRow } from "./DifficultyFieldRow";
+import { CustomConfigForm, CustomGameConfigForm } from "./CustomConfigForm";
+import { validateCustomSettings } from "./validateCustomSettings";
+import { MAX_CUSTOM_DIMENSION } from "../../constants";
 
 export function GameSettingsForm() {
   const [selected, setSelected] = React.useState<undefined | Difficulty>(
     undefined
   );
-  const [
-    customGameConfig,
-    setCustomGameConfig,
-  ] = React.useState<CustomGameConfigForm>({
-    height: '',
-    width: '',
-    mines: '',
-  });
+  const [customGameConfig, setCustomGameConfig] =
+    React.useState<CustomGameConfigForm>({
+      height: "",
+      width: "",
+      mines: "",
+    });
   const [customGameConfigErrors, setCustomGameConfigErrors] = React.useState<
     Partial<CustomGameConfigForm>
   >({});

@@ -1,9 +1,9 @@
-import { Group } from 'react-konva';
-import { SQUARE_WIDTH } from '../constants';
-import { GameState } from '../store';
-import { SquareConfig } from '../types';
-import { GridSquare } from './GridSquare';
-import { TOP_DISPLAY_HEIGHT } from './TopDisplay';
+import { Group } from "react-konva";
+import { SQUARE_WIDTH } from "../constants";
+import { GameState } from "../store";
+import { SquareConfig } from "../types";
+import { GridSquare } from "./GridSquare";
+import { TOP_DISPLAY_HEIGHT } from "./TopDisplay";
 
 interface Props {
   imageRef: HTMLImageElement;

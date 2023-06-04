@@ -8,4 +8,4 @@ export type SquareConfig = {
   numberOfSurroundingMines: number;
 };
 
-export type BailOutSquare = [number, number]
+export type BailOutSquare = [number, number];

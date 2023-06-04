@@ -10,7 +10,7 @@
 }
 
 .taskbar__start {
-  background: url('../assets/windows98StartSprite.png') no-repeat -1px -6px;
+  background: url("../assets/windows98StartSprite.png") no-repeat -1px -6px;
   min-width: 62px;
   height: 29px;
 }
