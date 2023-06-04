@@ -14,6 +14,13 @@ const defaultGameSettings = gameSettingsConfig[
   Difficulty.MEDIUM
 ] as GameSettings;
 
+/**
+ * @param gameSettings
+ *
+ * @returns initial game grid and bailout square
+ * bailout square guarantees that there is always one grid square that is not filled with a mine.
+ * This means that on the first click of the grid, if the square is a mine, we move the mine to the bail out square so that the user's first click is never a mind
+ */
 export function getInitialGrid(
   gameSettings?: GameSettings
 ): [SquareConfig[][], BailOutSquare] {

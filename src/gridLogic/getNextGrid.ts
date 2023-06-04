@@ -123,6 +123,9 @@ export function toggleFlag(
   });
 }
 
+/**
+ * Returns a grid where the mine has moved from the square just clicked to the bail out square
+ */
 export function getBailedOutGrid(
   grid: SquareConfig[][],
   pressedSquareRowIndex: number,
